@@ -76,7 +76,7 @@
 
       <header class="jumbotron subhead" id="overview">
         <h2>Search</h2>
-        <form class="form-horizontal">
+        <form class="form-horizontal" action="search_keyword.php" method="post">
           <fieldset>
             <legend>Query the database with a keyword</legend>
             <div class="control-group">
@@ -87,74 +87,14 @@
             </div>
             <div class="form-actions">
               <button type="submit" id="btn-search" class="btn btn-primary">Search</button>
-              <button class="btn">Cancel</button>
             </div>
           </fieldset>
         </form>
       </header>
 
-      <div id="data">
-        
-      </div>
-
     </div> <!-- /container -->
 
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="js/bootstrap.js"></script>
-    <script>
-    $(document).ready(function() {
-      /** When coming back from other page **/
-      var hash = window.location.hash.slice(1);
-
-      if(hash) {
-        $.ajax({
-          type: 'POST',
-          url: 'search_keyword.php',
-          data: { keyword: hash },
-          success: function(data) {
-            $('#data').html(data);
-            console.log('Load was performed.');
-          }
-        });
-      }
-
-      /** Click on submit **/
-
-
-      /** Click on submit **/
-      $('#btn-search').click(function(e) {
-        if($('#keyword').val()) {
-          window.location.hash = $('#keyword').val();
-          $.ajax({
-            type: 'POST',
-            url: 'search_keyword.php',
-            data: { keyword: $('#keyword').val() },
-            success: function(data) {
-              $('#data').html(data);
-              console.log('Load was performed.');
-              $('.player-link[data-task="remove"]').click(function(f) {
-                var entry_id = $(this).attr('data-id');
-                var delTable = $(this).attr('data-table');
-                if(confirm('Do you really want to delete the entry with ID: '+entry_id)) {
-                  $.ajax({
-                    type: 'POST',
-                    url: 'delete.php',
-                    data: { id: entry_id,
-                            table: delTable },
-                    success: function(data) {
-                      $('#overview').append(data);
-                      console.log('Delete was performed.');
-                    }
-                  });
-                }
-                f.preventDefault();
-              });
-            }
-          });
-        }
-        e.preventDefault();
-      });
-    });
-  </script>
   </body>
 </html>
