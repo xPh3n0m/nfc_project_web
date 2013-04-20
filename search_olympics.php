@@ -49,11 +49,18 @@ oci_close($conn);
 
 <div class="tabbable">
 <ul class="nav nav-tabs">
-  <li class="active"><a href="#medals" data-toggle="tab">Medals per country</a></li>
+  <li class="active"><a href="#countries" data-toggle="tab">Medals per country</a></li>
+  <li><a href="#medals"></a></li>
   <li><a href="#disciplines" data-toggle="tab">Disciplines</a></li>
 </ul>
 <div class="tab-content">
-  <div class="tab-pane active" id="medals">
+    <div class="tab-pane active" id="countries">
+
+    </div>
+
+    <!-- MEDALS TAB -->
+
+  <div class="tab-pane" id="medals">
 
     <?php
 
