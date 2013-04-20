@@ -2,12 +2,7 @@
 <html lang="en">
   <?php include("menu.php"); ?>
 
-<header class="jumbotron subhead" id="overview">
-        <h2>Athlete</h2>
-</header>
-
-<table class="table table-striped">
-
+<!-- Initialize connection and aid of athlete -->
 <?php
 
 $aid = $_GET['id'];
@@ -19,10 +14,53 @@ if (!$conn) {
     trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
-$stid = oci_parse($conn, "SELECT DISTINCT a.aid, a.name, p.country
-			  FROM athletes a, participants p 
+?>
+
+
+<header class="jumbotron subhead" id="overview">
+
+<?php
+
+$stid = oci_parse($conn, "SELECT DISTINCT a.name as aname
+        FROM athletes a
+        WHERE a.aid = " . $aid);
+        
+if (!$stid) {
+    $e = oci_error($conn);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+    $e = oci_error($stid);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+echo "<h2>" . $row['ANAME'] . "</h2>";
+
+?>
+</header>
+
+<h3>Participation</h3>
+<table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Olympics</th>
+          <th>Host Country</th>
+          <th>Host City</th>
+          <th>Country</th>
+          <th>Sport</th>
+        </tr>
+      </thead>
+
+<?php
+
+$stid = oci_parse($conn, "SELECT DISTINCT p.olympics, g.host_country, g.host_city, p.country, p.country, p.sport
+			  FROM athletes a, participants p, games g, disciplines d
 			  WHERE a.aid = " . $aid . "
-			  AND a.aid = p.aid");
+			  AND a.aid = p.aid
+        AND g.name = p.olympics");
 			  
 if (!$stid) {
     $e = oci_error($conn);
@@ -37,8 +75,58 @@ if (!$r) {
 
 echo "<tbody>\n";
 while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
-			echo "<tr><td>Name</td><td>" . $row['NAME'] . "</td></tr>";
-			echo "<tr><td>Country</td><td>" . $row['COUNTRY'] . "</td></tr>";
+      echo "<tr>\n";
+      foreach ($row as $item) {
+        echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;")."</td>\n";
+      }
+      echo "</tr>\n";
+}
+echo "</tbody></table>\n";
+
+?>
+
+
+<h3>Medals</h3>
+<table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Olympics</th>
+          <th>Country</th>
+          <th>Sport</th>
+          <th>Discipline</th>
+          <th>Medal</th>
+        </tr>
+      </thead>
+
+<?php
+
+$stid = oci_parse($conn, "SELECT DISTINCT p.olympics, p.country, p.country, p.sport, m.disciplines, m.medal
+        FROM athletes a, participants p, medals m
+        WHERE a.aid = " . $aid . "
+        AND a.aid = p.aid
+        AND m.aid = a.aid
+        AND m.olympics = p.olympics
+        AND m.sport = p.sport");
+
+        
+if (!$stid) {
+    $e = oci_error($conn);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+    $e = oci_error($stid);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+echo "<tbody>\n";
+while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+      echo "<tr>\n";
+      foreach ($row as $item) {
+        echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;")."</td>\n";
+      }
+      echo "</tr>\n";
 }
 echo "</tbody></table>\n";
 
@@ -46,3 +134,5 @@ oci_free_statement($stid);
 oci_close($conn);
 
 ?>
+
+</html>
