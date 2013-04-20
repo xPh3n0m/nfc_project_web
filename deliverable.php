@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="iso-8859-1">
     <title>Olympics 14</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Olympics 14 is a Introduction to Database Systems project from group #14">
@@ -26,9 +26,9 @@
             <ul class="nav">
               <li><a href="index.php">Home</a></li>
               <li><a href="search.php">Search</a></li>
-              <li><a href="modify.php">Modify data</a></li>
+              <li><a href="insert.php">Insert data</a></li>
               <li><a href="exec.php">Execute query</a></li>
-              <li class="dropdown">
+              <li class="dropdown active">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Deliverable queries <b class="caret"></b></a>
                 <ul class="dropdown-menu" role="menu">
                   <li class="dropdown-submenu">

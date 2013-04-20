@@ -26,7 +26,7 @@
             <ul class="nav">
               <li><a href="index.php">Home</a></li>
               <li><a href="search.php">Search</a></li>
-              <li class="active"><a href="modify.php">Modify data</a></li>
+              <li class="active"><a href="insert.php">Insert data</a></li>
               <li><a href="exec.php">Execute query</a></li>
               <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Deliverable queries <b class="caret"></b></a>
