@@ -2,9 +2,9 @@
 
 <?php include("search.php"); ?>
 
-<div id="data">
+<div class="tabbable">
 <ul class="nav nav-tabs">
-  <li><a href="#athlete" data-toggle="tab">Athletes</a></li>
+  <li class="active"><a href="#athlete" data-toggle="tab">Athletes</a></li>
   <li><a href="#olympics" data-toggle="tab">Olympics</a></li>
   <li><a href="#countries" data-toggle="tab">Countries</a></li>
 </ul>
@@ -14,14 +14,11 @@
 <?php include('athletes_table.php'); ?>
 
 		</div>
-  <div class="tab-pane active" id="olympics">
+  <div class="tab-pane" id="olympics">
 <?php include('olympics_table.php'); ?>
 </div>
-<div class="tab-pane active" id="countries">
+<div class="tab-pane" id="countries">
 <?php include('countries_table.php'); ?>
-</div>
-
-<div class="tab-pane active" id="events">
 </div>
 </div>
 </div>
