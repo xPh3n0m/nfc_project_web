@@ -2,6 +2,9 @@
 <html lang="en">
   <?php include("menu.php"); ?>
 
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+
 <!-- Initialize connection and aid of athlete -->
 <?php
 

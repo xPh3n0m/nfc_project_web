@@ -66,14 +66,11 @@ echo "</tbody></table>\n";
 
           <?php
 
-            $stid = oci_parse($conn, "SELECT *
-                FROM (
-                        SELECT m.country, count(*) as nb
-                        FROM medals m
+            $stid = oci_parse($conn, "SELECT m.country, count(*)
+                        FROM (SELECT distinct medal, olympics, country, sport, disciplines from medals) m
                         WHERE m.olympics = '" . $game . "'
-                        GROUP BY m.country
-                )
-                ORDER BY nb DESC");
+                        GROUP BY country
+                        ORDER BY count(*) DESC");
                     
             if (!$stid) {
                 $e = oci_error($conn);

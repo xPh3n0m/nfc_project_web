@@ -1,5 +1,8 @@
+
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta content="text/html; charset=iso-8859-1">
+    <meta charset="utf-8">
     <title>Olympics 14</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Olympics 14 is a Introduction to Database Systems project from group #14">
@@ -13,6 +16,8 @@
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
   </head>
 
+  <body>
+
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -20,7 +25,7 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li><a href="index.php">Home</a></li>
-              <li class="active"><a href="search.php">Search</a></li>
+              <li><a href="search.php">Search</a></li>
               <li><a href="modify.php">Modify data</a></li>
               <li><a href="exec.php">Execute query</a></li>
               <li class="dropdown">
@@ -66,5 +71,17 @@
         </div>
       </div>
     </div>
-</head>
 
+    <div class="container">
+
+      <?php
+      $LETTER = $_GET['letter'];
+      include("deliverables/".$LETTER.".php");
+      ?>
+
+    </div> <!-- /container -->
+    
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+  </body>
+</html>

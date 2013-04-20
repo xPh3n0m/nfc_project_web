@@ -34,34 +34,34 @@
                   <li class="dropdown-submenu">
                     <a href="#">Deliverable 2</a>
                     <ul class="dropdown-menu">
-                      <li><a href="#">A</a></li>
-                      <li><a href="#">B</a></li>
-                      <li><a href="#">C</a></li>
-                      <li><a href="#">D</a></li>
-                      <li><a href="#">E</a></li>
-                      <li><a href="#">F</a></li>
-                      <li><a href="#">G</a></li>
-                      <li><a href="#">H</a></li>
+                      <li><a href="deliverable.php?letter=A">A</a></li>
+                      <li><a href="deliverable.php?letter=B">B</a></li>
+                      <li><a href="deliverable.php?letter=C">C</a></li>
+                      <li><a href="deliverable.php?letter=D">D</a></li>
+                      <li><a href="deliverable.php?letter=E">E</a></li>
+                      <li><a href="deliverable.php?letter=F">F</a></li>
+                      <li><a href="deliverable.php?letter=G">G</a></li>
+                      <li><a href="deliverable.php?letter=H">H</a></li>
                     </ul>
                   </li>
                   <li class="divider"></li>
                   <li class="dropdown-submenu">
                     <a href="#">Deliverable 3</a>
                     <ul class="dropdown-menu">
-                      <li><a href="#">I</a></li>
-                      <li><a href="#">J</a></li>
-                      <li><a href="#">K</a></li>
-                      <li><a href="#">L</a></li>
-                      <li><a href="#">M</a></li>
-                      <li><a href="#">N</a></li>
-                      <li><a href="#">O</a></li>
-                      <li><a href="#">P</a></li>
-                      <li><a href="#">Q</a></li>
-                      <li><a href="#">R</a></li>
-                      <li><a href="#">S</a></li>
-                      <li><a href="#">T</a></li>
-                      <li><a href="#">U</a></li>
-                      <li><a href="#">V</a></li>
+                      <li><a href="deliverable.php?letter=I">I</a></li>
+                      <li><a href="deliverable.php?letter=J">J</a></li>
+                      <li><a href="deliverable.php?letter=K">K</a></li>
+                      <li><a href="deliverable.php?letter=L">L</a></li>
+                      <li><a href="deliverable.php?letter=M">M</a></li>
+                      <li><a href="deliverable.php?letter=N">N</a></li>
+                      <li><a href="deliverable.php?letter=O">O</a></li>
+                      <li><a href="deliverable.php?letter=P">P</a></li>
+                      <li><a href="deliverable.php?letter=Q">Q</a></li>
+                      <li><a href="deliverable.php?letter=R">R</a></li>
+                      <li><a href="deliverable.php?letter=S">S</a></li>
+                      <li><a href="deliverable.php?letter=T">T</a></li>
+                      <li><a href="deliverable.php?letter=U">U</a></li>
+                      <li><a href="deliverable.php?letter=V">V</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -74,7 +74,7 @@
 
     <div class="container">
 
-
+    
 
     </div> <!-- /container -->
     
