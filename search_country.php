@@ -26,6 +26,129 @@ echo "<h2>" . $country . "</h2>";
 ?>
 </header>
 
+<!-- NUMBER OF PARTICIPATIONS -->
+<?php
+
+$stid = oci_parse($conn, "SELECT COUNT(DISTINCT p.olympics) as count_part
+        FROM countries c, participants p
+        WHERE c.name = '" . $country . "'
+        AND c.name = p.country");
+        
+if (!$stid) {
+    $e = oci_error($conn);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+    $e = oci_error($stid);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+echo "<p>Number of participations to Olympic Games: " . $row['COUNT_PART'] . "</p>";
+
+?>
+
+<!-- NUMBER OF MEDALS -->
+<?php
+
+$stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
+        FROM countries c, medals m
+        WHERE c.name = '" . $country . "'
+        AND c.name = m.country");
+        
+if (!$stid) {
+    $e = oci_error($conn);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+    $e = oci_error($stid);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+echo "<p>Number of medals: " . $row['COUNT_MEDALS'] . "</p>";
+
+?>
+
+<!-- NUMBER OF GOLD MEDALS -->
+<?php
+
+$stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
+        FROM countries c, medals m
+        WHERE c.name = '" . $country . "'
+        AND c.name = m.country
+        AND m.medal = 'Gold medal'");
+        
+if (!$stid) {
+    $e = oci_error($conn);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+    $e = oci_error($stid);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+echo "<p>Number of Gold medals: " . $row['COUNT_MEDALS'] . "</p>";
+
+?>
+
+<!-- NUMBER OF SILVER MEDALS -->
+<?php
+
+$stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
+        FROM countries c, medals m
+        WHERE c.name = '" . $country . "'
+        AND c.name = m.country
+        AND m.medal = 'Silver medal'");
+        
+if (!$stid) {
+    $e = oci_error($conn);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+    $e = oci_error($stid);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+echo "<p>Number of Silver medals: " . $row['COUNT_MEDALS'] . "</p>";
+
+?>
+
+<!-- NUMBER OF BRONZE MEDALS -->
+<?php
+
+$stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
+        FROM countries c, medals m
+        WHERE c.name = '" . $country . "'
+        AND c.name = m.country
+        AND m.medal = 'Bronze medal'");
+        
+if (!$stid) {
+    $e = oci_error($conn);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+    $e = oci_error($stid);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+echo "<p>Number of Bronze medals: " . $row['COUNT_MEDALS'] . "</p>";
+
+?>
+
 <h3>Participation</h3>
 <table class="table table-striped">
       <thead>
@@ -83,14 +206,15 @@ echo "</tbody></table>\n";
       </thead>
 
 <?php
-/*
-$stid = oci_parse($conn, "SELECT DISTINCT p.olympics, p.country, p.country, p.sport, m.disciplines, m.medal
-        FROM athletes a, participants p, medals m
-        WHERE a.aid = " . $aid . "
-        AND a.aid = p.aid
-        AND m.aid = a.aid
+
+$stid = oci_parse($conn, "SELECT DISTINCT p.olympics, p.country, p.sport, m.disciplines, m.medal
+        FROM countries c, participants p, medals m
+        WHERE c.name = '" . $country . "'
+        AND c.name = p.country
+        AND m.country = c.name
         AND m.olympics = p.olympics
-        AND m.sport = p.sport");
+        AND m.sport = p.sport
+        ORDER BY p.olympics DESC");
 
         
 if (!$stid) {
@@ -116,7 +240,7 @@ echo "</tbody></table>\n";
 
 oci_free_statement($stid);
 oci_close($conn);
-*/
+
 ?>
 
 </html>
