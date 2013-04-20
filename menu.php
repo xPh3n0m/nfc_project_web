@@ -1,9 +1,9 @@
   <head>
-    <meta charset="utf-8">
+    <meta content="text/html; charset=iso-8859-1">
     <title>Olympics 14</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Olympics 14 is a Introduction to Database Systems project from group #14">
-    <meta name="author" content="">
+    <meta name="author" content="root" >
     <link href="css/bootstrap.css" rel="stylesheet">
     <style>
       body {
