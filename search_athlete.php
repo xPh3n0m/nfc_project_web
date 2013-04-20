@@ -42,6 +42,130 @@ echo "<h2>" . $row['ANAME'] . "</h2>";
 ?>
 </header>
 
+
+<!-- NUMBER OF PARTICIPATIONS -->
+<?php
+
+$stid = oci_parse($conn, "SELECT COUNT(DISTINCT p.olympics) as count_part
+        FROM athletes a, participants p
+        WHERE a.aid = " . $aid . "
+        AND a.aid = p.aid");
+        
+if (!$stid) {
+    $e = oci_error($conn);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+    $e = oci_error($stid);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+echo "<p>Number of participations to Olympic Games: " . $row['COUNT_PART'] . "</p>";
+
+?>
+
+<!-- NUMBER OF MEDALS -->
+<?php
+
+$stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
+        FROM athletes a, medals m
+        WHERE a.aid = " . $aid . "
+        AND a.aid = m.aid");
+        
+if (!$stid) {
+    $e = oci_error($conn);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+    $e = oci_error($stid);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+echo "<p>Number of medals: " . $row['COUNT_MEDALS'] . "</p>";
+
+?>
+
+<!-- NUMBER OF GOLD MEDALS -->
+<?php
+
+$stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
+        FROM athletes a, medals m
+        WHERE a.aid = " . $aid . "
+        AND m.medal = 'Gold medal'
+        AND a.aid = m.aid");
+        
+if (!$stid) {
+    $e = oci_error($conn);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+    $e = oci_error($stid);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+echo "<p>Number of Gold medals: " . $row['COUNT_MEDALS'] . "</p>";
+
+?>
+
+<!-- NUMBER OF SILVER MEDALS -->
+<?php
+
+$stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
+        FROM athletes a, medals m
+        WHERE a.aid = " . $aid . "
+        AND m.medal = 'Silver medal'
+        AND a.aid = m.aid");
+        
+if (!$stid) {
+    $e = oci_error($conn);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+    $e = oci_error($stid);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+echo "<p>Number of Silver medals: " . $row['COUNT_MEDALS'] . "</p>";
+
+?>
+
+<!-- NUMBER OF BRONZE MEDALS -->
+<?php
+
+$stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
+        FROM athletes a, medals m
+        WHERE a.aid = " . $aid . "
+        AND m.medal = 'Bronze medal'
+        AND a.aid = m.aid");
+        
+if (!$stid) {
+    $e = oci_error($conn);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+    $e = oci_error($stid);
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+echo "<p>Number of Bronze medals: " . $row['COUNT_MEDALS'] . "</p>";
+
+?>
+
 <h3>Participation</h3>
 <table class="table table-striped">
       <thead>
@@ -60,7 +184,8 @@ $stid = oci_parse($conn, "SELECT DISTINCT p.olympics, g.host_country, g.host_cit
 			  FROM athletes a, participants p, games g, disciplines d
 			  WHERE a.aid = " . $aid . "
 			  AND a.aid = p.aid
-        AND g.name = p.olympics");
+        AND g.name = p.olympics
+        ORDER BY p.olympics DESC");
 			  
 if (!$stid) {
     $e = oci_error($conn);
@@ -106,7 +231,8 @@ $stid = oci_parse($conn, "SELECT DISTINCT p.olympics, p.country, p.country, p.sp
         AND a.aid = p.aid
         AND m.aid = a.aid
         AND m.olympics = p.olympics
-        AND m.sport = p.sport");
+        AND m.sport = p.sport
+        ORDER BY p.olympics DESC");
 
         
 if (!$stid) {
