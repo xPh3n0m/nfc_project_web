@@ -2,6 +2,9 @@
 <html lang="en">
   <?php include("menu.php"); ?>
 
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+
 <!-- Initialize connection and aid of athlete -->
 <?php
 
@@ -166,7 +169,14 @@ echo "<p>Number of Bronze medals: " . $row['COUNT_MEDALS'] . "</p>";
 
 ?>
 
-<h3>Participation</h3>
+<div class="tabbable">
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#participation" data-toggle="tab">Participation</a></li>
+  <li><a href="#medals" data-toggle="tab">Medals</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="participation">
+
 <table class="table table-striped">
       <thead>
         <tr>
@@ -210,8 +220,9 @@ echo "</tbody></table>\n";
 
 ?>
 
+</div>
+<div class="tab-pane" id="medals">
 
-<h3>Medals</h3>
 <table class="table table-striped">
       <thead>
         <tr>
@@ -256,9 +267,15 @@ while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
 }
 echo "</tbody></table>\n";
 
-oci_free_statement($stid);
-oci_close($conn);
-
 ?>
 
+</div>
+</div>
+</div>
+
 </html>
+
+<?php 
+oci_free_statement($stid);
+oci_close($conn);
+?>
