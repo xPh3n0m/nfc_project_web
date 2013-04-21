@@ -215,6 +215,7 @@ echo "</tbody></table>\n";
         </tr>
       </thead>
 
+
 <?php
 
 $stid = oci_parse($conn, "SELECT DISTINCT p.olympics, p.country, p.sport, m.disciplines, m.medal
