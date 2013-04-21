@@ -1,87 +1,11 @@
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="iso-8859-1">
-    <title>Olympics 14</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Olympics 14 is a Introduction to Database Systems project from group #14">
-    <meta name="author" content="root" >
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-    </style>
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
-  </head>
-
-  <body>
-
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="brand" href="index.php">Olympics 14</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li><a href="index.php">Home</a></li>
-              <li><a href="search.php">Search</a></li>
-              <li><a href="insert.php">Insert data</a></li>
-              <li><a href="exec.php">Execute query</a></li>
-              <li class="dropdown active">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Deliverable queries <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li class="dropdown-submenu">
-                    <a href="#">Deliverable 2</a>
-                    <ul class="dropdown-menu">
-                      <li><a href="deliverable.php?letter=A">A</a></li>
-                      <li><a href="deliverable.php?letter=B">B</a></li>
-                      <li><a href="deliverable.php?letter=C">C</a></li>
-                      <li><a href="deliverable.php?letter=D">D</a></li>
-                      <li><a href="deliverable.php?letter=E">E</a></li>
-                      <li><a href="deliverable.php?letter=F">F</a></li>
-                      <li><a href="deliverable.php?letter=G">G</a></li>
-                      <li><a href="deliverable.php?letter=H">H</a></li>
-                    </ul>
-                  </li>
-                  <li class="divider"></li>
-                  <li class="dropdown-submenu">
-                    <a href="#">Deliverable 3</a>
-                    <ul class="dropdown-menu">
-                      <li><a href="deliverable.php?letter=I">I</a></li>
-                      <li><a href="deliverable.php?letter=J">J</a></li>
-                      <li><a href="deliverable.php?letter=K">K</a></li>
-                      <li><a href="deliverable.php?letter=L">L</a></li>
-                      <li><a href="deliverable.php?letter=M">M</a></li>
-                      <li><a href="deliverable.php?letter=N">N</a></li>
-                      <li><a href="deliverable.php?letter=O">O</a></li>
-                      <li><a href="deliverable.php?letter=P">P</a></li>
-                      <li><a href="deliverable.php?letter=Q">Q</a></li>
-                      <li><a href="deliverable.php?letter=R">R</a></li>
-                      <li><a href="deliverable.php?letter=S">S</a></li>
-                      <li><a href="deliverable.php?letter=T">T</a></li>
-                      <li><a href="deliverable.php?letter=U">U</a></li>
-                      <li><a href="deliverable.php?letter=V">V</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-
-    <div class="container">
-
-      <?php
-      $LETTER = $_GET['letter'];
-      include("deliverables/".$LETTER.".php");
-      ?>
-
-    </div> <!-- /container -->
-    
-    <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="js/bootstrap.js"></script>
-  </body>
-</html>
+<?php
+$letters = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V');
+$letter='A';
+if(isset($_GET['letter'])){
+  $letter=$_GET['letter'];
+  if(!in_array($letter, $letters)){
+    $letter='A';
+  }
+}
+include("deliverables/".$letter.".php");
+?>
