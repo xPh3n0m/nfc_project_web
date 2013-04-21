@@ -57,7 +57,7 @@ echo "<p>Number of participations to Olympic Games: " . $row['COUNT_PART'] . "</
 <?php
 
 $stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
-        FROM countries c, medals m
+        FROM countries c, (SELECT DISTINCT medal, olympics, country, sport, disciplines FROM medals) m
         WHERE c.name = '" . $country . "'
         AND c.name = m.country");
         
@@ -81,7 +81,7 @@ echo "<p>Number of medals: " . $row['COUNT_MEDALS'] . "</p>";
 <?php
 
 $stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
-        FROM countries c, medals m
+        FROM countries c, (SELECT DISTINCT medal, olympics, country, sport, disciplines FROM medals) m
         WHERE c.name = '" . $country . "'
         AND c.name = m.country
         AND m.medal = 'Gold medal'");
@@ -106,7 +106,7 @@ echo "<p>Number of Gold medals: " . $row['COUNT_MEDALS'] . "</p>";
 <?php
 
 $stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
-        FROM countries c, medals m
+        FROM countries c, (SELECT DISTINCT medal, olympics, country, sport, disciplines FROM medals) m
         WHERE c.name = '" . $country . "'
         AND c.name = m.country
         AND m.medal = 'Silver medal'");
@@ -131,7 +131,7 @@ echo "<p>Number of Silver medals: " . $row['COUNT_MEDALS'] . "</p>";
 <?php
 
 $stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
-        FROM countries c, medals m
+        FROM countries c, (SELECT DISTINCT medal, olympics, country, sport, disciplines FROM medals) m
         WHERE c.name = '" . $country . "'
         AND c.name = m.country
         AND m.medal = 'Bronze medal'");
