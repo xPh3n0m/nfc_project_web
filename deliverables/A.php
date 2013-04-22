@@ -8,7 +8,7 @@ where a.aid in (
         from medals m
         where m.olympics like '%Summer%'
       intersect
-        select m.aid	
+        select m.aid
         from medals m
 		where m.olympics like '%Winter%'
 	)
@@ -31,10 +31,10 @@ where a.aid in (
 			        from medals m
 			        where m.olympics like '%Summer%'
 			      intersect
-			        select m.aid	
+			        select m.aid
 			        from medals m
 				where m.olympics like '%Winter%')");
-	        
+
 	if (!$stid) {
 	    $e = oci_error($conn);
 	    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
@@ -46,13 +46,23 @@ where a.aid in (
 	    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 	}
 
-	echo "<tbody>\n";
+	$table = array();
+	$num_results = 0;
 	while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
-	      echo "<tr>\n";
-	      foreach ($row as $item) {
-	        echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;")."</td>\n";
-	      }
-	      echo "</tr>\n";
+		array_push($table, $row);
+	    $num_results++;
+	}
+
+	echo '<span class="label label-info">'.$num_results.' results found</span>';
+
+	echo "<tbody>\n";
+	while (!empty($table)) {
+		$row = array_pop($table);
+		echo "<tr>\n";
+		foreach ($row as $item) {
+			echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;")."</td>\n";
+		}
+		echo "</tr>\n";
 	}
 	echo "</tbody>\n";
 
