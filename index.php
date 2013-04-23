@@ -24,13 +24,13 @@
     if(isset($_GET['page'])){
       $page=$_GET['page'];
       if(array_key_exists($page, $pages)){
+        $pages['home']='';
         if($page == 'info'){
           $pages['search']='active';
         } else {
           $pages[$page]='active';
         }
         $content=$page;
-        $pages['home']='';
       }
     }
 
