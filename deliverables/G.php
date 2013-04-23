@@ -31,7 +31,7 @@ order by p.olympics desc
 					from participants p2
 					where p.olympics = p2.olympics
 					group by p2.olympics, p2.country)
-		order by p.olympics asc");
+		order by p.olympics desc");
 	        
 	if (!$stid) {
 	    $e = oci_error($conn);
@@ -55,7 +55,7 @@ order by p.olympics desc
 
 	echo "<tbody>\n";
 	while (!empty($table)) {
-		$row = array_pop($table);
+		$row = array_shift($table);
 	      echo "<tr>\n";
 	      foreach ($row as $item) {
 	        echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;")."</td>\n";

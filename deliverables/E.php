@@ -45,7 +45,7 @@ having count(*) > 1
 
 	echo "<tbody>\n";
 	while (!empty($table)) {
-		$row = array_pop($table);
+		$row = array_shift($table);
 	      echo "<tr>\n";
 	      foreach ($row as $item) {
 	        echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;")."</td>\n";

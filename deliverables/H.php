@@ -23,7 +23,7 @@ order by c.name
 		from countries c
 		where c.name not in (select distinct m.country
 					from medals m)
-		order by c.name desc");
+		order by c.name");
 	        
 	if (!$stid) {
 	    $e = oci_error($conn);
@@ -47,7 +47,7 @@ order by c.name
 
 	echo "<tbody>\n";
 	while (!empty($table)) {
-		$row = array_pop($table);
+		$row = array_shift($table);
 	      echo "<tr>\n";
 	      foreach ($row as $item) {
 	        echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;")."</td>\n";
