@@ -53,7 +53,7 @@ echo '<span class="label label-info">'.$num_results.' results found</span>';
       echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;")."</td>\n";
     }
     echo "<td><i class='icon-remove'></i></td>\n";
-    echo "<td><a href='search_olympics.php?amp;id=" . $row['GAME'] . "' class='player-link' data-id='" . $row['GAME'] . "' data-task='more'><i class='icon-plus'></i></a></td>\n";
+    echo "<td><a href='index.php?p=info&amp;a=game&amp;id=" . $row['GAME'] . "' class='player-link' data-id='" . $row['GAME'] . "' data-task='more'><i class='icon-plus'></i></a></td>\n";
     echo "</tr>\n";
   }
   echo "</tbody>\n";

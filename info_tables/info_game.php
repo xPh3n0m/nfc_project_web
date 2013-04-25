@@ -2,7 +2,7 @@
   <h2>Olympic Game</h2>
 </header>
 
-<table class="table table-striped">
+<table class="table table-bordered">
 
   <?php
 
@@ -30,15 +30,15 @@
     trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
   }
 
-  echo "<tbody>\n";
-  while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
-   echo "<tr><td>Game</td><td>" . $row['GAME'] . "</td></tr>";
-   echo "<tr><td>Host Country</td><td>" . $row['HOST_COUNTRY'] . "</td></tr>";
-   echo "<tr><td>Host City</td><td>" . $row['HOST_CITY'] . "</td></tr>";
- }
- echo "</tbody>\n";
+  $row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
 
- ?>
+  echo "<tbody>\n";
+  echo "<tr><td><strong>Game</strong></td><td>" . $row['GAME'] . "</td></tr>";
+  echo "<tr><td><strong>Host Country</strong></td><td>" . $row['HOST_COUNTRY'] . "</td></tr>";
+  echo "<tr><td><strong>Host City</strong></td><td>" . $row['HOST_CITY'] . "</td></tr>";
+  echo "</tbody>\n";
+
+  ?>
 </table>
 
 
@@ -48,6 +48,8 @@
     <li><a href="#medals" data-toggle="tab">Medals</a></li>
     <li><a href="#disciplines" data-toggle="tab">Disciplines</a></li>
   </ul>
+
+  <!-- COUNTRIES TAB -->
   <div class="tab-content">
     <div class="tab-pane active" id="countries">
       <table class="table table-striped">
