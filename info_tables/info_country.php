@@ -22,128 +22,151 @@ if (!$conn) {
   ?>
 </header>
 
-<!-- NUMBER OF PARTICIPATIONS -->
-<?php
+<div class="row">
+  <div class="span4">
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <!-- NUMBER OF PARTICIPATIONS -->
+          <?php
 
-$stid = oci_parse($conn, "SELECT COUNT(DISTINCT p.olympics) as count_part
-  FROM countries c, participants p
-  WHERE c.name = '" . $country . "'
-  AND c.name = p.country");
+          $stid = oci_parse($conn, "SELECT COUNT(DISTINCT p.olympics) as count_part
+            FROM countries c, participants p
+            WHERE c.name = '" . $country . "'
+            AND c.name = p.country");
 
-if (!$stid) {
-  $e = oci_error($conn);
-  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+          if (!$stid) {
+            $e = oci_error($conn);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+          }
 
-$r = oci_execute($stid);
-if (!$r) {
-  $e = oci_error($stid);
-  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+          $r = oci_execute($stid);
+          if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+          }
 
-$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
-echo "<p>Number of participations to Olympic Games: " . $row['COUNT_PART'] . "</p>";
+          $row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+          echo "<td><strong>Number of participations to Olympic Games</strong></td><td>" . $row['COUNT_PART'] . "</td>";
 
-?>
+          ?>
+        </tr>
+        <tr>
+          <!-- NUMBER OF MEDALS -->
+          <?php
 
-<!-- NUMBER OF MEDALS -->
-<?php
+          $stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
+            FROM countries c, (SELECT DISTINCT medal, olympics, country, sport, disciplines FROM medals) m
+            WHERE c.name = '" . $country . "'
+            AND c.name = m.country");
 
-$stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
-  FROM countries c, (SELECT DISTINCT medal, olympics, country, sport, disciplines FROM medals) m
-  WHERE c.name = '" . $country . "'
-  AND c.name = m.country");
+          if (!$stid) {
+            $e = oci_error($conn);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+          }
 
-if (!$stid) {
-  $e = oci_error($conn);
-  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+          $r = oci_execute($stid);
+          if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+          }
 
-$r = oci_execute($stid);
-if (!$r) {
-  $e = oci_error($stid);
-  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+          $row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+          echo "<td><strong>Number of medals</strong></td><td>" . $row['COUNT_MEDALS'] . "</td>";
 
-$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
-echo "<p>Number of medals: " . $row['COUNT_MEDALS'] . "</p>";
+          ?>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-?>
+  <div class="span4">
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <!-- NUMBER OF GOLD MEDALS -->
+          <?php
 
-<!-- NUMBER OF GOLD MEDALS -->
-<?php
+          $stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
+            FROM countries c, (SELECT DISTINCT medal, olympics, country, sport, disciplines FROM medals) m
+            WHERE c.name = '" . $country . "'
+            AND c.name = m.country
+            AND m.medal = 'Gold medal'");
 
-$stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
-  FROM countries c, (SELECT DISTINCT medal, olympics, country, sport, disciplines FROM medals) m
-  WHERE c.name = '" . $country . "'
-  AND c.name = m.country
-  AND m.medal = 'Gold medal'");
+          if (!$stid) {
+            $e = oci_error($conn);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+          }
 
-if (!$stid) {
-  $e = oci_error($conn);
-  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+          $r = oci_execute($stid);
+          if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+          }
 
-$r = oci_execute($stid);
-if (!$r) {
-  $e = oci_error($stid);
-  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+          $row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+          echo "<td><strong>Number of Gold medals</strong></td><td>" . $row['COUNT_MEDALS'] . "</td>";
 
-$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
-echo "<p>Number of Gold medals: " . $row['COUNT_MEDALS'] . "</p>";
+          ?>
+        </tr>
 
-?>
+        <tr>
+          <!-- NUMBER OF SILVER MEDALS -->
+          <?php
 
-<!-- NUMBER OF SILVER MEDALS -->
-<?php
+          $stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
+            FROM countries c, (SELECT DISTINCT medal, olympics, country, sport, disciplines FROM medals) m
+            WHERE c.name = '" . $country . "'
+            AND c.name = m.country
+            AND m.medal = 'Silver medal'");
 
-$stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
-  FROM countries c, (SELECT DISTINCT medal, olympics, country, sport, disciplines FROM medals) m
-  WHERE c.name = '" . $country . "'
-  AND c.name = m.country
-  AND m.medal = 'Silver medal'");
+          if (!$stid) {
+            $e = oci_error($conn);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+          }
 
-if (!$stid) {
-  $e = oci_error($conn);
-  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+          $r = oci_execute($stid);
+          if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+          }
 
-$r = oci_execute($stid);
-if (!$r) {
-  $e = oci_error($stid);
-  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+          $row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+          echo "<td><strong>Number of Silver medals</strong></td><td>" . $row['COUNT_MEDALS'] . "</td>";
 
-$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
-echo "<p>Number of Silver medals: " . $row['COUNT_MEDALS'] . "</p>";
+          ?>
+        </tr>
 
-?>
+        <tr>
+          <!-- NUMBER OF BRONZE MEDALS -->
+          <?php
 
-<!-- NUMBER OF BRONZE MEDALS -->
-<?php
+          $stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
+            FROM countries c, (SELECT DISTINCT medal, olympics, country, sport, disciplines FROM medals) m
+            WHERE c.name = '" . $country . "'
+            AND c.name = m.country
+            AND m.medal = 'Bronze medal'");
 
-$stid = oci_parse($conn, "SELECT COUNT(m.medal) as count_medals
-  FROM countries c, (SELECT DISTINCT medal, olympics, country, sport, disciplines FROM medals) m
-  WHERE c.name = '" . $country . "'
-  AND c.name = m.country
-  AND m.medal = 'Bronze medal'");
+          if (!$stid) {
+            $e = oci_error($conn);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+          }
 
-if (!$stid) {
-  $e = oci_error($conn);
-  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+          $r = oci_execute($stid);
+          if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+          }
 
-$r = oci_execute($stid);
-if (!$r) {
-  $e = oci_error($stid);
-  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+          $row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+          echo "<td><strong>Number of Bronze medals</strong></td><td>" . $row['COUNT_MEDALS'] . "</td>";
 
-$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
-echo "<p>Number of Bronze medals: " . $row['COUNT_MEDALS'] . "</p>";
-
-?>
+          ?>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <div class="tabbable">
   <ul class="nav nav-tabs">
