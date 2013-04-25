@@ -60,7 +60,7 @@ echo '<span class="label label-info">'.$num_results.' results found</span>';
       echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;")."</td>\n";
     }
     echo "<td><i class='icon-remove'></i></td>\n";
-    echo "<td><a href='index.php?page=info&about=athlete&id=" . $row['AID'] . "' class='player-link' data-id='" . $row['AID'] . "' data-task='more'><i class='icon-plus'></i></a></td>\n";
+    echo "<td><a href='index.php?page=info&amp;about=athlete&amp;id=" . $row['AID'] . "' class='player-link' data-id='" . $row['AID'] . "' data-task='more'><i class='icon-plus'></i></a></td>\n";
     echo "</tr>\n";
   }
   echo "</tbody>\n";

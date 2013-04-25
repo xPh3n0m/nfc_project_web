@@ -1,9 +1,9 @@
 <?php
 $keyword='';
 $isKeywordSet=False;
-if(isset($_GET['keyword'])){
-  if($_GET['keyword']!=''){
-    $keyword=$_GET['keyword'];
+if(isset($_GET['k'])){
+  if($_GET['k']!=''){
+    $keyword=$_GET['k'];
     $isKeywordSet=True;
   }
 }
@@ -11,9 +11,9 @@ if(isset($_GET['keyword'])){
 
 <header class="jumbotron subhead" id="overview">
   <h2>Search</h2>
-  <form class="form-horizontal" action="index.php?page=search" method="get">
+  <form class="form-horizontal" action="index.php?p=search" method="get">
     <?php
-    $keys = array('page');
+    $keys = array('p');
     foreach($keys as $name) {
       if(!isset($_GET[$name])) {
         continue;
@@ -26,9 +26,9 @@ if(isset($_GET['keyword'])){
     <fieldset>
       <legend>Query the database with a keyword</legend>
       <div class="control-group">
-        <label class="control-label" for="keyword">Keyword <b style="color:red;">*</b></label>
+        <label class="control-label" for="k">Keyword <b style="color:red;">*</b></label>
         <div class="controls">
-          <input type="text" class="input-xlarge" name="keyword" value="<?php echo $keyword; ?>">
+          <input type="text" class="input-xlarge" name="k" value="<?php echo $keyword; ?>">
         </div>
       </div>
       <div class="form-actions">
@@ -42,7 +42,7 @@ if(isset($_GET['keyword'])){
 if(!$isKeywordSet){
   echo '<!--';
 } else {
-  $searchkey = $_GET['keyword'];
+  $searchkey = $_GET['k'];
 }
 ?>
 
