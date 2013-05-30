@@ -101,7 +101,8 @@ function restore_fields(){
                 <textarea class="field span6" name="q" id="query" rows="10" placeholder="ex:                                      
                                                                                           SELECT *                                
                                                                                           FROM swagtable t, bazing a               
-                                                                                          WHERE t.hisis > a.wesome"></textarea>
+                                                                                          WHERE t.hisis > a.wesome
+                                                                                          "><?php echo $query; ?></textarea>
               </div>
             </div>
             <div class="form-actions">
