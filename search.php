@@ -143,7 +143,7 @@ function restore_fields(){
 
           echo '<span class="label label-info">'.$num_results.' results found</span>';
 
-          echo "<br/><table class='table table-striped'><tbody>\n";
+          echo "<table class='table table-striped'><thead><tr><th>&nbsp;</th></tr></thead><tbody>\n";
           while (!empty($table)) {
             $row = array_shift($table);
             echo "<tr>\n";
