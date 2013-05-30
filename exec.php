@@ -1,4 +1,5 @@
 <?php
+if(!isset($isReferencing)) header('Location: index.php');
 $query='';
 $isQuerySet=False;
 if(isset($_POST['q'])){

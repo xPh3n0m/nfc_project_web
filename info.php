@@ -1,4 +1,5 @@
 <?php
+if(!isset($isReferencing)) header('Location: index.php');
 $info = array('athlete', 'country', 'game');
 if(isset($_GET['a'])){
 	$about=$_GET['a'];

@@ -1,4 +1,5 @@
 <?php
+if(!isset($isReferencing)) header('Location: index.php');
 $letters = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V');
 $letter='A';
 if(isset($_GET['l'])){

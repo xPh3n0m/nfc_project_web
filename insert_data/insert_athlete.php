@@ -27,11 +27,8 @@ if (!$r) {
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
-header('Location: ../index.php?p=insert');      
-
-?>
-
-<?php 
 oci_free_statement($stid);
 oci_close($conn);
+
+header('Location: ../index.php?p=insert');
 ?>

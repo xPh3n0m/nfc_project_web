@@ -20,6 +20,7 @@
     <script src="js/bootstrap.js"></script>
     
     <?php
+    $isReferencing = True;
     $pages=array("home"=>"active", "search"=>"", "info"=>"", "insert"=>"", "exec"=>"", "deliverable"=>"");
     $content='home';
 

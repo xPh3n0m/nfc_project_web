@@ -1,3 +1,6 @@
+<?php 
+if(!isset($isReferencing)) header('Location: index.php');
+?>
 <section class="container content">
     <ul class="nav nav-tabs">
       <li class="active"><a href="#athlete" data-toggle="tab">Athlete</a></li>
@@ -13,7 +16,7 @@
             <div class="control-group">
               <label class="control-label" for="name">Athlete's full name</label>
               <div class="controls">
-                <input type="text" class="input-xxlarge required" name="name" id="name" placeholder="John Doe">
+                <input type="text" class="input-xxlarge required" name="name" id="name" placeholder="Jean Poplus">
               </div>
             </div>
             <div class="form-actions">
