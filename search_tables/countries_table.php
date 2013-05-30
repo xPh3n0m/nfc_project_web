@@ -38,7 +38,6 @@ echo '<span class="label label-info">'.$num_results.' results found</span>';
     <tr>
       <th>Country</th>
       <th>IOC Code</th>
-      <th>Remove</th>
       <th>Show more</th>
     </tr>
   </thead>
@@ -51,7 +50,6 @@ echo '<span class="label label-info">'.$num_results.' results found</span>';
     foreach ($row as $item) {
       echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;")."</td>\n";
     }
-    echo "<td><i class='icon-remove'></i></td>\n";
     echo "<td><a href='index.php?p=info&amp;a=country&amp;id=" . $row['NAME'] . "' class='player-link' data-id='" . $row['NAME'] . "' data-task='more'><i class='icon-plus'></i></a></td>\n";
     echo "</tr>\n";
   }
