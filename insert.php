@@ -6,7 +6,7 @@
     </ul>
     <div class="tab-content">
       <div class="tab-pane active" id="athlete">
-        <form class="form-horizontal" id="player-form" action="insert.php?type=player" method="post">
+        <form class="form-horizontal" id="player-form" action="insert_data/insert_athlete.php" method="post">
           <fieldset>
             <legend>Insert an athlete</legend>
             <input type="hidden" value="athlete" name="type">

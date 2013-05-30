@@ -1,5 +1,9 @@
 <?php
 
+$athlete_name = $_POST['name'];
+
+echo $athlete_name;
+/*
 $conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
 
 if (!$conn) {
@@ -23,7 +27,7 @@ if (!$r) {
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
- 
-header('Location: ../insert.php');      
+ */
+header('Location: ../index.php?p=insert');      
 
 ?>
