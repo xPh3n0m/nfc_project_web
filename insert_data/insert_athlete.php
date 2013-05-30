@@ -3,7 +3,7 @@
 $athlete_name = $_POST['name'];
 
 echo $athlete_name;
-/*
+
 $conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
 
 if (!$conn) {
@@ -12,8 +12,8 @@ if (!$conn) {
 }
 
 $stid = oci_parse(
-  $conn, "INSERT INTO Athletes (name) 
-  VALUES(" . $athlete_name . ")" 
+  $conn, "INSERT INTO Athletes
+  VALUES((SELECT MAX(aid) FROM Athletes A) + 1, '" . $athlete_name . "')" 
 );
 
 if (!$stid) {
@@ -27,7 +27,11 @@ if (!$r) {
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
- */
 header('Location: ../index.php?p=insert');      
 
+?>
+
+<?php 
+oci_free_statement($stid);
+oci_close($conn);
 ?>
