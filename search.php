@@ -98,7 +98,10 @@ function restore_fields(){
             <div class="control-group">
               <label class="control-label" for="query">Query:</label>
               <div class="controls">
-                <textarea name="q" id="query" cols="30" rows="10"></textarea>
+                <textarea class="field span6" name="q" id="query" rows="10" placeholder="ex:                                      
+                                                                                          SELECT *                                
+                                                                                          FROM swagtable t, bazing a               
+                                                                                          WHERE t.hisis > a.wesome"></textarea>
               </div>
             </div>
             <div class="form-actions">
