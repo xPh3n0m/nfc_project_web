@@ -184,7 +184,7 @@ echo "<p>Number of Bronze medals: " . $row['COUNT_MEDALS'] . "</p>";
         <?php
 
         $stid = oci_parse($conn, "SELECT DISTINCT p.olympics, g.host_country, g.host_city, p.country, p.country, p.sport
-         FROM athletes a, participants p, games g, disciplines d
+         FROM athletes a, participants p, games g
          WHERE a.aid = " . $aid . "
          AND a.aid = p.aid
          AND g.name = p.olympics

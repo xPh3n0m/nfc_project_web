@@ -8,15 +8,13 @@ if (!$conn) {
 }
 
 $stid = oci_parse(
-  $conn, "SELECT DISTINCT a.aid, a.name, p.country, p.olympics, p.sport 
-  FROM athletes a, participants p 
-  WHERE a.aid = p.aid 
-  AND (a.aid LIKE '%" . $searchkey . "%'
-   OR p.country LIKE '%" . $searchkey . "%'
-   OR a.name LIKE '%" . $searchkey . "%'
-   OR p.olympics LIKE '%" . $searchkey . "%'
-   OR p.sport LIKE '%" . $searchkey . "%')"
+  $conn, "SELECT DISTINCT a.aid, a.name
+  FROM athletes a
+  WHERE (a.aid LIKE '%" . $searchkey . "%'
+   OR a.name LIKE '%" . $searchkey . "%')
+  ORDER BY a.aid ASC"
 );
+
 if (!$stid) {
   $e = oci_error($conn);
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
@@ -43,9 +41,6 @@ echo '<span class="label label-info">'.$num_results.' results found</span>';
     <tr>
       <th>ID</th>
       <th>Name</th>
-      <th>Country</th>
-      <th>Olympics</th>
-      <th>Sport</th>
       <th>Remove</th>
       <th>Show more</th>
     </tr>
