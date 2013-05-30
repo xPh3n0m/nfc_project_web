@@ -1,6 +1,6 @@
-<!-- Initialize connection and aid of athlete -->
 <?php
-
+if(!isset($isReferencing)) header('Location: ../index.php');
+if(!isset($_GET['id'])) header('Location: index.php');
 $country = $_GET['id'];
 
 $conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');

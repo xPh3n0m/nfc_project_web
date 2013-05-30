@@ -1,5 +1,5 @@
 <?php
-
+if(!isset($isReferencing)) header('Location: ../index.php');
 $athlete_name = $_POST['name'];
 
 echo $athlete_name;
