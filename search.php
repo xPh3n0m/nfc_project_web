@@ -11,31 +11,44 @@ if(isset($_GET['k'])){
 
 <header class="jumbotron subhead" id="overview">
   <h2>Search</h2>
-  <form class="form-horizontal" action="index.php?p=search" method="get">
-    <?php
-    $keys = array('p');
-    foreach($keys as $name) {
-      if(!isset($_GET[$name])) {
-        continue;
-      }
-      $value = htmlspecialchars($_GET[$name]);
-      $name = htmlspecialchars($name);
-      echo '<input type="hidden" name="'. $name .'" value="'. $value .'">';
-    }
-    ?>
-    <fieldset>
-      <legend>Query the database with a keyword</legend>
-      <div class="control-group">
-        <label class="control-label" for="k">Keyword <b style="color:red;">*</b></label>
-        <div class="controls">
-          <input type="text" class="input-xlarge" name="k" value="<?php echo $keyword; ?>">
-        </div>
+  <div class="tabbable">
+    <ul class="nav nav-pills">
+      <li class="active"><a href="#keyword" data-toggle="tab">Keyword</a></li>
+      <li><a href="#query" data-toggle="tab">Query</a></li>
+    </ul>
+    <div class="pill-content">
+      <div class="tab-pane active" id="keyword">
+        <form class="form-horizontal" action="index.php?p=search" method="get">
+          <?php
+          $keys = array('p');
+          foreach($keys as $name) {
+            if(!isset($_GET[$name])) {
+              continue;
+            }
+            $value = htmlspecialchars($_GET[$name]);
+            $name = htmlspecialchars($name);
+            echo '<input type="hidden" name="'. $name .'" value="'. $value .'">';
+          }
+          ?>
+          <fieldset>
+            <legend>Search the database with a keyword</legend>
+            <div class="control-group">
+              <label class="control-label" for="k">Keyword <b style="color:red;">*</b></label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" name="k" value="<?php echo $keyword; ?>">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" id="btn-search" class="btn btn-primary">Search</button>
+            </div>
+          </fieldset>
+        </form>
       </div>
-      <div class="form-actions">
-        <button type="submit" id="btn-search" class="btn btn-primary">Search</button>
+      <div class="tab-pane" id="query">
+        Salut ça va?!
       </div>
-    </fieldset>
-  </form>
+    </div>
+  </div>
 </header>
 
 <?php
