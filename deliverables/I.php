@@ -34,7 +34,11 @@ if(isset($_POST['o'])){
 	}
 }
 
-echo implode("\", \"", $olympics);
+$olympics_array = "[\"";
+foreach($olympics as $o) {
+	$olympics_array = $olympics_array . "\", \"" . $o['NAME'];
+}
+$olympics_array = $olympics_array . "\"]";
 
 $columns = array('Country', 'Gold Medals', 'Silver Medals', 'Bronze Medals', 'Total');
 ?>
@@ -44,7 +48,7 @@ $columns = array('Country', 'Gold Medals', 'Silver Medals', 'Bronze Medals', 'To
 			<label class="control-label" for="olympic">Select an olympic:</label>
 			<div class="controls">
 				<input type="text" class="input-xlarge required" name="o" id="olympic" placeholder="2012 Summer Olympics" data-provide="typeahead"
-				data-source='["<?php echo implode("\", \"", $olympics); ?>"]'>
+				data-source='<?php echo $olympics_array; ?>'>
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</div>
 		</div>
