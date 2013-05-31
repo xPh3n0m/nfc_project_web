@@ -29,13 +29,9 @@ if (!$r) {
 	trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
-while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
-	array_push($olympics, $row);
-}
-
 $olympics_array = "[\"";
-foreach($olympics as $o) {
-	$olympics_array = $olympics_array . "\", \"" . $o['NAME'];
+while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+	$olympics_array = $olympics_array . "\", \"" . $row['NAME'];
 }
 $olympics_array = $olympics_array . "\"]";
 
@@ -47,7 +43,7 @@ $columns = array('Country', 'Gold Medals', 'Silver Medals', 'Bronze Medals', 'To
 			<label class="control-label" for="olympic">Select an olympic:</label>
 			<div class="controls">
 				<input type="text" class="input-xlarge required" name="o" id="olympic" placeholder="2012 Summer Olympics"
-				data-items="10" data-provide="typeahead" data-source='<?php echo $olympics_array; ?>'>
+				autocomplete="off" data-items="10" data-provide="typeahead" data-source='<?php echo $olympics_array; ?>'>
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</div>
 		</div>
