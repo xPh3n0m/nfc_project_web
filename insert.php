@@ -108,6 +108,12 @@ $('#aid').typeahead({
           <fieldset>
             <legend>Add a medal</legend>
             <div class="control-group">
+              <label class="control-label" for="medal">Medal</label>
+              <div class="controls">
+                <input type="text" class="input required" name="medal" id="medal">
+              </div>
+            </div>
+            <div class="control-group">
               <label class="control-label" for="aid">Athlete's ID</label>
               <div class="controls">
                 <input type="text" class="input-small required" name="aid" id="aid">
