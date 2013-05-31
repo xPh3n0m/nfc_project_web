@@ -17,7 +17,17 @@ if (!$stid) {
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
+$mtime = microtime(); 
+$mtime = explode(" ",$mtime); 
+$mtime = $mtime[1] + $mtime[0]; 
+$starttime = $mtime;
 $r = oci_execute($stid);
+$mtime = microtime(); 
+$mtime = explode(" ",$mtime); 
+$mtime = $mtime[1] + $mtime[0]; 
+$endtime = $mtime; 
+$totaltime = ($endtime - $starttime);
+
 if (!$r) {
   $e = oci_error($stid);
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
@@ -30,7 +40,8 @@ while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
     $num_results++;
 }
 
-echo '<span class="label label-info">'.$num_results.' results found</span>';
+echo '<span class="label label-info">'.$num_results.' results found</span>&nbsp;';
+echo '<span class="label label-success">in '.number_format($totaltime, 3).' seconds</span>';
 
 ?>
 
