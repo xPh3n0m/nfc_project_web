@@ -1,7 +1,7 @@
 <?php
+$olympic = 'specific Olympic Games supplied by the user';
 
-
-$header = 'I. Compute medal table for the specific Olympic Games supplied by the user. Medal table should contain 
+$header = 'I. Compute medal table for the '.$olympic.'. Medal table should contain 
 country’s IOC code followed by the number of gold, silver, bronze and total medals. It should first be 
 sorted by the number of gold, then silvers and finally bronzes.';
 
