@@ -50,7 +50,7 @@ $('#aid').typeahead({
     <ul class="nav nav-tabs">
       <li class="active"><a href="#athlete" data-toggle="tab">Athlete</a></li>
       <li class=""><a href="#participation" data-toggle="tab">Participation</a></li>
-      <li class=""><a href="#team" data-toggle="tab">Team</a></li>
+      <li class=""><a href="#medal" data-toggle="tab">Medal</a></li>
     </ul>
     <div class="tab-content">
       <div class="tab-pane active" id="athlete">
