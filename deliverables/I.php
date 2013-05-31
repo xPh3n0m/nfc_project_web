@@ -14,27 +14,30 @@ if(isset($_POST['o'])){
 	from (select distinct medal, olympics, country, sport, disciplines from medals where olympics = \''.$olympic.'\') m
 	group by m.country
 	order by Gold_medal desc, Silver_medal desc, Bronze_medal desc';
-} else {
-	$conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
-	$stid = oci_parse($conn, "select name from games order by name desc");
+}
+$conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
+$stid = oci_parse($conn, "select name from games order by name desc");
 
-	if (!$stid) {
-		$e = oci_error($conn);
-		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-	}
-
-	$r = oci_execute($stid);
-	if (!$r) {
-		$e = oci_error($stid);
-		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-	}
-
-	while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
-		array_push($olympics, $row);
-	}
+if (!$stid) {
+	$e = oci_error($conn);
+	trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
-echo implode("', '", $olympics);
+$r = oci_execute($stid);
+if (!$r) {
+	$e = oci_error($stid);
+	trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+	array_push($olympics, $row);
+}
+
+$olympics_array = "[\"";
+foreach($olympics as $o) {
+	$olympics_array = $olympics_array . "\", \"" . $o['NAME'];
+}
+$olympics_array = $olympics_array . "\"]";
 
 $columns = array('Country', 'Gold Medals', 'Silver Medals', 'Bronze Medals', 'Total');
 ?>
@@ -43,8 +46,8 @@ $columns = array('Country', 'Gold Medals', 'Silver Medals', 'Bronze Medals', 'To
 		<div class="control-group">
 			<label class="control-label" for="olympic">Select an olympic:</label>
 			<div class="controls">
-				<input type="text" class="input-xlarge required" name="o" id="olympic" placeholder="2012 Summer Olympics" data-provide="typeahead"
-				data-source='["<?php echo implode("', '", $olympics); ?>"]'>
+				<input type="text" class="input-xlarge required" name="o" id="olympic" placeholder="2012 Summer Olympics"
+				data-items="10" data-provide="typeahead" data-source='<?php echo $olympics_array; ?>'>
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</div>
 		</div>

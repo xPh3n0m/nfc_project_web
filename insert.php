@@ -1,5 +1,22 @@
-<?php 
-if(!isset($isReferencing)) header('Location: index.php');
+<?php
+$conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
+$stid = oci_parse($conn, "select name from games order by name desc");
+
+if (!$stid) {
+  $e = oci_error($conn);
+  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+  $e = oci_error($stid);
+  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$athletes = array();
+while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+  array_push($athletes, $row);
+}
 ?>
 <section class="container content">
     <ul class="nav nav-tabs">
@@ -16,7 +33,7 @@ if(!isset($isReferencing)) header('Location: index.php');
             <div class="control-group">
               <label class="control-label" for="name">Athlete's full name</label>
               <div class="controls">
-                <input type="text" class="input-xxlarge required" name="name" id="name" placeholder="Jean Poplus">
+                <input type="text" class="input-xxlarge required" name="name" id="name" placeholder="Jerry Golay">
               </div>
             </div>
             <div class="form-actions">
@@ -26,28 +43,36 @@ if(!isset($isReferencing)) header('Location: index.php');
         </form>
       </div>
       <div class="tab-pane" id="participation">
-        <form class="form-horizontal" action="insert.php?type=Coach" method="POST">
+        <form class="form-horizontal" action="insert_data/insert_participation.php" method="POST">
           <fieldset>
             <legend>Insert a participation</legend>
             <input type="hidden" name="type" value="coach">
             <div class="control-group">
-              <label class="control-label" for="cid">Coach ID</label>
+              <label class="control-label" for="aid">Athlete name</label>
               <div class="controls">
-                <input type="text" class="input-small required" name="cid" id="cid" placeholder="XXXXXXX01">
+                <input type="text" class="input-xlarge required" name="aid" id="aid">
+                <p class="help-block">Athlete name is required!</p>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="firstname">First name</label>
+              <label class="control-label" for="country">Country</label>
               <div class="controls">
-                <input type="text" class="input-xlarge required" name="firstname" id="firstname">
-                <p class="help-block">First name is required!</p>
+                <input type="text" class="input-xlarge required" name="country" id="country">
+                <p class="help-block">Country is required!</p>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="lastname">Last name</label>
+              <label class="control-label" for="olympics">Olympics</label>
               <div class="controls">
-                <input type="text" class="input-xlarge required" name="lastname" id="lastname">
-                <p class="help-block">Last name is required</p>
+                <input type="text" class="input-xlarge required" name="olympics" id="olympics">
+                <p class="help-block">Olympics is required</p>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="sport">Sport</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge required" name="sport" id="sport">
+                <p class="help-block">Sport is required</p>
               </div>
             </div>
             <div class="form-actions">
