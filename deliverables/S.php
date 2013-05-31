@@ -15,5 +15,5 @@ where a.aid in (select distinct m.aid
                                                                   from participants
                                                                   where team_name is not null))';
 
-$columns = array('Athlete Name');
+$columns = array('Name');
 ?>

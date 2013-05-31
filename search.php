@@ -114,15 +114,16 @@ function restore_fields(){
 
         <?php
         if($isQuerySet){
-
-          $conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
+          
+          $conn = oci_connect('db2013_g014_select', 'selectonly', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
 
           if (!$conn) {
             $e = oci_error();
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
           }
 
-          $stid = oci_parse($conn, $query);
+          // alter session
+          $stid = oci_parse($conn, "alter session set current_schema=db2013_g14");
 
           if (!$stid) {
             $e = oci_error($conn);
@@ -134,6 +135,32 @@ function restore_fields(){
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
           }
+          // end alter session
+
+          // execute query
+          $stid = oci_parse($conn, $query);
+
+          if (!$stid) {
+            $e = oci_error($conn);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+          }
+
+          $mtime = microtime(); 
+          $mtime = explode(" ",$mtime); 
+          $mtime = $mtime[1] + $mtime[0]; 
+          $starttime = $mtime;
+          $r = oci_execute($stid);
+          $mtime = microtime(); 
+          $mtime = explode(" ",$mtime); 
+          $mtime = $mtime[1] + $mtime[0]; 
+          $endtime = $mtime; 
+          $totaltime = ($endtime - $starttime);
+
+          if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+          }
+          // end execute query
 
           $table = array();
           $num_results = 0;
@@ -142,7 +169,8 @@ function restore_fields(){
             $num_results++;
           }
 
-          echo '<span class="label label-info">'.$num_results.' results found</span>';
+          echo '<span class="label label-info">'.$num_results.' results found</span>&nbsp;';
+          echo '<span class="label label-success">in '.number_format($totaltime, 3).' seconds</span>';
 
           echo "<table class='table table-striped'><thead><tr><th>&nbsp;</th></tr></thead><tbody>\n";
           while (!empty($table)) {

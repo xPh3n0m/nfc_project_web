@@ -1,3 +1,7 @@
+<?php
+if(!isset($isReferencing)) header('Location: ../index.php');
+if(!isset($_GET['id'])) header('Location: index.php');
+?>
 <header class="jumbotron subhead" id="overview">
   <h2>Olympic Game</h2>
 </header>

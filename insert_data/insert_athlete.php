@@ -1,8 +1,6 @@
 <?php
-
+if(!isset($isReferencing)) header('Location: ../index.php');
 $athlete_name = $_POST['name'];
-
-echo $athlete_name;
 
 $conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
 

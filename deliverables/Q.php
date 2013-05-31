@@ -1,5 +1,5 @@
 <?php
-$header = 'Q. For each Olympic Games, list the name of the country which scored the largest percentage of the 
+$header = 'Q. For each Olympic Games, list the name of the country which scored the largest percentage of the
 medals.';
 
 $sql = 'select t1.olympics, t2.country, t1.m/t1.s as percentage

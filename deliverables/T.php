@@ -17,5 +17,5 @@ where a.aid in (select distinct m.aid
                                                                   where team_name is not null)
                       and m.medal not like \'Gold%\')';
 
-$columns = array('Athlete Name');
+$columns = array('Name');
 ?>

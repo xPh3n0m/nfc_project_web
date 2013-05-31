@@ -1,5 +1,6 @@
 <?php
 if(!isset($isReferencing)) header('Location: index.php');
+$no_resultnb = array('D');
 $letters = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V');
 $letter='A';
 if(isset($_GET['l'])){
@@ -28,7 +29,17 @@ if($header && $sql && $columns){
 	    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 	}
 
+	$mtime = microtime(); 
+	$mtime = explode(" ",$mtime); 
+	$mtime = $mtime[1] + $mtime[0]; 
+	$starttime = $mtime;
 	$r = oci_execute($stid);
+	$mtime = microtime(); 
+	$mtime = explode(" ",$mtime); 
+	$mtime = $mtime[1] + $mtime[0]; 
+	$endtime = $mtime; 
+	$totaltime = ($endtime - $starttime);
+
 	if (!$r) {
 	    $e = oci_error($stid);
 	    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
@@ -41,7 +52,10 @@ if($header && $sql && $columns){
 	    $num_results++;
 	}
 
-	echo '<span class="label label-info">'.$num_results.' results found</span>';
+	if(!in_array($letter, $no_resultnb)){
+		echo '<span class="label label-info">'.$num_results.' results found</span>&nbsp;';
+	}
+	echo '<span class="label label-success">in '.number_format($totaltime, 3).' seconds</span>';
 
 	echo '<table class="table table-striped">';
 	echo '  <thead>';
