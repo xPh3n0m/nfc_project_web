@@ -1,43 +1,44 @@
 <?php
+// Security measure
 $nb_athletes = 67261;
+$k = '';
 
+if(isset($_GET['k'])){
+	$k=$_GET['k'];
+	if(isset($_GET['aid'])){
+		$aid=$_GET['aid'];
+		if($aid>$nb_athletes && $k!=''){
+		    
+		    $conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
 
-if(isset($_GET['aid']) && isset($_GET['k'])){
-  if($_GET['aid']>$nb_athletes && $_GET['k']!=''){
-    $aid=$_GET['aid'];
-    $k=$_GET['k'];
+			if (!$conn) {
+			  $e = oci_error();
+			  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+			}
 
-    echo $aid;
-    
-    $conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
+			$stid = oci_parse(
+			  $conn, "DELETE FROM Athletes a
+			  WHERE a.aid = " . $aid
+			);
 
-	if (!$conn) {
-	  $e = oci_error();
-	  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+			if (!$stid) {
+			  $e = oci_error($conn);
+			  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+			}
+
+			$r = oci_execute($stid);
+			if (!$r) {
+			  $e = oci_error($stid);
+			  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+			}
+
+			    
+
+			oci_free_statement($stid);
+			oci_close($conn);
+		
+	  	}
 	}
-
-	$stid = oci_parse(
-	  $conn, "DELETE FROM Athletes a
-	  WHERE a.aid = " . $aid
-	);
-
-	if (!$stid) {
-	  $e = oci_error($conn);
-	  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-	}
-
-	$r = oci_execute($stid);
-	if (!$r) {
-	  $e = oci_error($stid);
-	  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-	}
-
-	    
-
-	oci_free_statement($stid);
-	oci_close($conn);
-	
-  }
 }
 	
 header('Location: ../index.php?p=search&k=' . $k);  
