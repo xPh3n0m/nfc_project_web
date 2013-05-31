@@ -1,9 +1,9 @@
 <?php
-//if(!isset($isReferencing)) header('Location: ../index.php');
-$aid = $_GET['aid'];
-$country = $_GET['country'];
-$olympics = "2012 Summer Olympics";
-$sport = $_GET['sport'];
+if(!isset($isReferencing)) header('Location: ../index.php');
+$aid = $_POST['aid'];
+$country = $_POST['country'];
+$olympics = $_POST['olympics'];
+$sport = $_POST['sport'];
 
 $conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
 
@@ -118,5 +118,5 @@ if($nb_aid == 1) {
 
 oci_close($conn);
 
-//header('Location: ../index.php?p=insert');
+header('Location: ../index.php?p=insert');
 ?>
