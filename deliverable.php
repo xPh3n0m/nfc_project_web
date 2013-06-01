@@ -1,6 +1,6 @@
 <?php
 if(!isset($isReferencing)) header('Location: index.php');
-$no_resultnb = array('D');
+$no_resultnb = array('D', 'L', 'R', 'V');
 $letters = array('A','B','C','D','E','F','G','H','I','J',"KS", "KW", 'L','M','N','O','P','Q','R','S','T','U','V');
 $letter='A';
 if(isset($_GET['l'])){
