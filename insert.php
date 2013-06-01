@@ -2,7 +2,7 @@
 $conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
 
 // get country names
-$stid = oci_parse($conn, "select name from countries order by asc");
+$stid = oci_parse($conn, "select name from countries order by name asc");
 
 if (!$stid) {
   $e = oci_error($conn);
@@ -62,7 +62,7 @@ while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
 $sports = $sports . "\"]";
 
 // get team names
-$stid = oci_parse($conn, "select distinct team_name from participants order by team_name desc");
+$stid = oci_parse($conn, "select distinct team_name as name from participants order by name desc");
 
 if (!$stid) {
   $e = oci_error($conn);
