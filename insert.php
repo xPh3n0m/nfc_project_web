@@ -97,6 +97,12 @@ $('#aid').typeahead({
                 <input type="text" class="input-xlarge required" name="sport" id="sport">
               </div>
             </div>
+            <div class="control-group">
+              <label class="control-label" for="teamname">Team Name</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge required" name="teamname" id="teamname">
+              </div>
+            </div>
             <div class="form-actions">
               <button type="submit" class="btn btn-primary">Save</button>
             </div>
