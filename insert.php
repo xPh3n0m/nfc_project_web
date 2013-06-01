@@ -160,7 +160,8 @@ oci_close($conn);
           <div class="control-group">
             <label class="control-label" for="medal">Medal</label>
             <div class="controls">
-              <input type="text" class="input required" name="medal" id="medal">
+              <input type="text" class="input required" name="medal" id="medal"
+              autocomplete="off" data-items="3" data-provide="typeahead" data-source='["Gold medal", "Silver medal", "Bronze medal"]'>
             </div>
           </div>
           <div class="control-group">
@@ -172,19 +173,22 @@ oci_close($conn);
           <div class="control-group">
             <label class="control-label" for="country">Country</label>
             <div class="controls">
-              <input type="text" class="input-xlarge required" name="country" id="country">
+              <input type="text" class="input-xlarge required" name="country" id="country"
+              autocomplete="off" data-items="10" data-provide="typeahead" data-source='<?php echo $countries; ?>'>
             </div>
           </div>
           <div class="control-group">
             <label class="control-label" for="olympic">Olympic</label>
             <div class="controls">
-              <input type="text" class="input-xlarge required" name="olympics" id="olympic">
+              <input type="text" class="input-xlarge required" name="olympics" id="olympic"
+              autocomplete="off" data-items="10" data-provide="typeahead" data-source='<?php echo $olympics; ?>'>
             </div>
           </div>
           <div class="control-group">
             <label class="control-label" for="sport">Sport</label>
             <div class="controls">
-              <input type="text" class="input-xlarge required" name="sport" id="sport">
+              <input type="text" class="input-xlarge required" name="sport" id="sport"
+              autocomplete="off" data-items="10" data-provide="typeahead" data-source='<?php echo $sports; ?>'>
             </div>
           </div>
           <div class="control-group">
