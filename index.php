@@ -78,7 +78,13 @@
                     <ul class="dropdown-menu">
                       <li><a href="index.php?p=deliverable&amp;l=I">I</a></li>
                       <li><a href="index.php?p=deliverable&amp;l=J">J</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=K">K</a></li>
+                      <li class="dropdown-submenu">
+                        <a href="#">K</a>
+                        <ul class="dropdown-menu">
+                          <li><a href="index.php?p=deliverable&amp;l=KS">Summer</a></li>
+                          <li><a href="index.php?p=deliverable&amp;l=KW">Winter</a></li>
+                        </ul>
+                      </li>
                       <li><a href="index.php?p=deliverable&amp;l=L">L</a></li>
                       <li><a href="index.php?p=deliverable&amp;l=M">M</a></li>
                       <li><a href="index.php?p=deliverable&amp;l=N">N</a></li>

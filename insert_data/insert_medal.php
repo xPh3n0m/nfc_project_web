@@ -78,7 +78,7 @@ if($nb_event == 1) {
 
 oci_close($conn);
 
-header('Location: ../index.php?p=insert');
+header('Location: ../index.php?p=insert);
 ?>
 
 				

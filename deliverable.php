@@ -1,7 +1,7 @@
 <?php
 if(!isset($isReferencing)) header('Location: index.php');
 $no_resultnb = array('D');
-$letters = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V');
+$letters = array('A','B','C','D','E','F','G','H','I','J',"KS", "KW", 'L','M','N','O','P','Q','R','S','T','U','V');
 $letter='A';
 if(isset($_GET['l'])){
 	$letter=strtoupper($_GET['l']);
