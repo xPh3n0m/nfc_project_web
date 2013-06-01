@@ -35,6 +35,9 @@ while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
 }
 $olympics_array = $olympics_array . "\"]";
 
+oci_free_statement($stid);
+oci_close($conn);
+
 $columns = array('Country', 'Gold Medals', 'Silver Medals', 'Bronze Medals', 'Total');
 ?>
 <form class="form-horizontal" id="I-form" action="index.php?p=deliverable&amp;l=I" method="post">
