@@ -21,7 +21,7 @@
     
     <?php
     $isReferencing = True;
-    $pages=array("home"=>"active", "search"=>"", "info"=>"", "insert"=>"", "exec"=>"", "deliverable"=>"");
+    $pages=array("home"=>"active", "search"=>"", "info"=>"", "insert"=>"", "deliverable"=>"");
     $content='home';
 
     if(isset($_GET['p'])){
@@ -55,7 +55,6 @@
               <li class="<?php page('home'); ?>"><a href="index.php?p=home">Home</a></li>
               <li class="<?php page('search'); ?>"><a href="index.php?p=search">Search</a></li>
               <li class="<?php page('insert'); ?>"><a href="index.php?p=insert">Insert data</a></li>
-              <li class="<?php page('exec'); ?>"><a href="index.php?p=exec">Execute query</a></li>
               <li class="dropdown <?php page('deliverable') ?>">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Deliverable queries <b class="caret"></b></a>
                 <ul class="dropdown-menu">
