@@ -1,6 +1,27 @@
 <?php
 $conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
 
+// get country names
+$stid = oci_parse($conn, "select name from countries order by asc");
+
+if (!$stid) {
+  $e = oci_error($conn);
+  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+  $e = oci_error($stid);
+  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$countries = "[\"";
+while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+  $countries = $countries . "\", \"" . $row['NAME'];
+}
+$countries = $countries . "\"]";
+
+// get olympics
 $stid = oci_parse($conn, "select name from games order by name desc");
 
 if (!$stid) {
@@ -14,13 +35,14 @@ if (!$r) {
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
-$olympics_array = "[\"";
+$olympics = "[\"";
 while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
-  $olympics_array = $olympics_array . "\", \"" . $row['NAME'];
+  $olympics = $olympics . "\", \"" . $row['NAME'];
 }
-$olympics_array = $olympics_array . "\"]";
+$olympics = $olympics . "\"]";
 
-$stid = oci_parse($conn, "select name from games order by name desc");
+// get sports
+$stid = oci_parse($conn, "select name from sports order by name asc");
 
 if (!$stid) {
   $e = oci_error($conn);
@@ -33,13 +55,14 @@ if (!$r) {
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
-$olympics_array = "[\"";
+$sports = "[\"";
 while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
-  $olympics_array = $olympics_array . "\", \"" . $row['NAME'];
+  $sports = $sports . "\", \"" . $row['NAME'];
 }
-$olympics_array = $olympics_array . "\"]";
+$sports = $sports . "\"]";
 
-$stid = oci_parse($conn, "select name from games order by name desc");
+// get team names
+$stid = oci_parse($conn, "select distinct team_name from participants order by team_name desc");
 
 if (!$stid) {
   $e = oci_error($conn);
@@ -52,11 +75,11 @@ if (!$r) {
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
-$olympics_array = "[\"";
+$teams = "[\"";
 while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
-  $olympics_array = $olympics_array . "\", \"" . $row['NAME'];
+  $teams = $teams . "\", \"" . $row['NAME'];
 }
-$olympics_array = $olympics_array . "\"]";
+$teams = $teams . "\"]";
 
 oci_free_statement($stid);
 oci_close($conn);
@@ -99,19 +122,29 @@ oci_close($conn);
           <div class="control-group">
             <label class="control-label" for="country">Country</label>
             <div class="controls">
-              <input type="text" class="input-xlarge required" name="country" id="country">
+              <input type="text" class="input-xlarge required" name="country" id="country"
+              autocomplete="off" data-items="10" data-provide="typeahead" data-source='<?php echo $countries; ?>'>
             </div>
           </div>
           <div class="control-group">
             <label class="control-label" for="olympics">Olympics</label>
             <div class="controls">
-              <input type="text" class="input-xlarge required" name="olympics" id="olympics">
+              <input type="text" class="input-xlarge required" name="olympics" id="olympics"
+              autocomplete="off" data-items="10" data-provide="typeahead" data-source='<?php echo $olympics; ?>'>
             </div>
           </div>
           <div class="control-group">
             <label class="control-label" for="sport">Sport</label>
             <div class="controls">
-              <input type="text" class="input-xlarge required" name="sport" id="sport">
+              <input type="text" class="input-xlarge required" name="sport" id="sport"
+              autocomplete="off" data-items="10" data-provide="typeahead" data-source='<?php echo $sports; ?>'>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="teamname">Team Name</label>
+            <div class="controls">
+              <input type="text" class="input-xlarge required" name="teamname" id="teamname"
+              autocomplete="off" data-items="10" data-provide="typeahead" data-source='<?php echo $teams; ?>'>
             </div>
           </div>
           <div class="form-actions">
