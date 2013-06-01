@@ -160,7 +160,7 @@ oci_close($conn);
           <div class="control-group">
             <label class="control-label" for="medal">Medal</label>
             <div class="controls">
-              <input type="text" class="input required" name="medal" id="medal"
+              <input type="text" class="input required" name="medal" id="medal" placeholder="Gold medal"
               autocomplete="off" data-items="3" data-provide="typeahead" data-source='["Gold medal", "Silver medal", "Bronze medal"]'>
             </div>
           </div>
