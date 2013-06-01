@@ -39,7 +39,7 @@ function restore_fields(){
       <li <?php if($isQuerySet) echo "class=\"active\"" ?>><a href="#query" data-toggle="tab">Query</a></li>
     </ul>
     <ul class="tab-content">
-      <li class="tab-pane <?php if(!$isQuerySet) echo "active"; ?>" id="keyword">
+      <li class="tab-pane<?php if(!$isQuerySet) echo "active"; ?>" id="keyword">
         <form class="form-horizontal" action="index.php?p=search" method="get">
           <?php restore_fields(); ?>
           <fieldset>
@@ -47,7 +47,7 @@ function restore_fields(){
             <div class="control-group">
               <label class="control-label" for="k">Keyword <b style="color:red;">*</b></label>
               <div class="controls">
-                <input type="text" class="input-xlarge" name="k" value="<?php echo $keyword; ?>">
+                <input type="text" class="input-xlarge" name="k" id="k" value="<?php echo $keyword; ?>">
               </div>
             </div>
             <div class="form-actions">
@@ -90,20 +90,17 @@ function restore_fields(){
         ?>
 
       </li>
-      <li class="tab-pane <?php if($isQuerySet) echo "active"; ?>" id="query">
+      <li class="tab-pane<?php if($isQuerySet) echo "active"; ?>" id="query">
         
         <form class="form-horizontal" action="index.php?p=search" method="post">
           <?php restore_fields(); ?>
           <fieldset>
             <legend>Here you can type a search query</legend>
             <div class="control-group">
-              <label class="control-label" for="query">Query:</label>
+              <label class="control-label" for="querytext">Query:</label>
               <div class="controls">
-                <textarea class="field span6" name="q" id="query" rows="10" placeholder="ex:                                      
-                                                                                          SELECT *                                
-                                                                                          FROM swagtable t, bazing a               
-                                                                                          WHERE t.hisis > a.wesome
-                                                                                          "><?php echo $query; ?></textarea>
+                <textarea class="field span6" name="q" id="querytext" rows="10" placeholder="ex:                                                                                                                                SELECT *                                                                                                                          FROM swagtable t, bazing a                                                                                                         WHERE t.hisis > a.wesome                                                                                          "
+                  ><?php echo $query; ?></textarea>
               </div>
             </div>
             <div class="form-actions">

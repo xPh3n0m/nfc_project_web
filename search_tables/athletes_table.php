@@ -65,7 +65,7 @@ echo '<span class="label label-success">in '.number_format($totaltime, 3).' seco
     foreach ($row as $item) {
       echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;")."</td>\n";
     }
-    echo "<td><a href='remove/remove_athlete.php?aid=" . $row['AID'] . "&k=" . $searchkey . "'><i class='icon-remove'></i></a></td>\n";
+    echo "<td><a href='remove/remove_athlete.php?aid=" . $row['AID'] . "&amp;k=" . $searchkey . "'><i class='icon-remove'></i></a></td>\n";
     echo "<td><a href='index.php?p=info&amp;a=athlete&amp;id=" . $row['AID'] . "' class='player-link' data-id='" . $row['AID'] . "' data-task='more'><i class='icon-plus'></i></a></td>\n";
     echo "</tr>\n";
   }
