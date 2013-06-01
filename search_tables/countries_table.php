@@ -50,7 +50,6 @@ echo '<span class="label label-success">in '.number_format($totaltime, 3).' seco
     <tr>
       <th>Country</th>
       <th>IOC Code</th>
-      <th>Remove</th>
       <th>Show more</th>
     </tr>
   </thead>
