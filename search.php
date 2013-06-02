@@ -159,13 +159,13 @@ function restore_fields(){
           // end execute query
 
           $table = array();
-          $num_results = 0;
+          $nb_results = 0;
           while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
             array_push($table, $row);
-            $num_results++;
+            $nb_results++;
           }
 
-          echo '<span class="label label-info">'.$num_results.' results found</span>&nbsp;';
+          echo '<span class="label label-info">'.$nb_results.' results found</span>&nbsp;';
           echo '<span class="label label-success">in '.number_format($totaltime, 3).' seconds</span>';
 
           echo "<table class='table table-striped'><thead><tr><th>&nbsp;</th></tr></thead><tbody>\n";
