@@ -1,6 +1,4 @@
 <?php
-if(!isset($isReferencing)) header('Location: ../index.php');
-
 if(isset($_POST['aid']) && isset($_POST['country']) && isset($_POST['olympics']) && isset($_POST['sport'])) {
 	$aid = $_POST['aid'];
 	$country = $_POST['country'];

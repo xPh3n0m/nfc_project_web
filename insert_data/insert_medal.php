@@ -1,6 +1,4 @@
 <?php
-if(!isset($isReferencing)) header('Location: ../index.php');
-
 if(isset($_POST['aid']) && isset($_POST['country']) && isset($_POST['olympics']) && isset($_POST['sport']) && isset($_POST['medal']) && isset($_POST['discipline'])) {
 	$aid = $_POST['aid'];
 	$country = $_POST['country'];
@@ -10,11 +8,11 @@ if(isset($_POST['aid']) && isset($_POST['country']) && isset($_POST['olympics'])
 	$discipline = $_POST['discipline'];
 
 	$conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
-
 	if (!$conn) {
 	  $e = oci_error();
 	  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 	}
+
 
 	$get_event = oci_parse(
 	  $conn, "SELECT * FROM Events e WHERE e.olympics = '" . $olympics . "' AND e.disciplines = '" . $discipline . "' AND e.sport = '" . $sport . "'"
@@ -34,46 +32,63 @@ if(isset($_POST['aid']) && isset($_POST['country']) && isset($_POST['olympics'])
 	$nb_event = oci_fetch_all($get_event, $res);
 	oci_free_statement($get_event);
 
-	if($nb_event == 1) {
-		//The aid exists
-		$get_part = oci_parse(
-	  		$conn, "SELECT * FROM Participants p WHERE p.aid = " . $aid . " AND p.olympics = '" . $olympics . "' AND p.sport = '" . $sport . "' AND p.country = '" . $country . "'"
+	if($nb_event != 1) {
+		$set_event = oci_parse(
+			$conn, "INSERT INTO Events (disciplines, olympics, sport) VALUES ('" . $discipline . "', '" . $olympics . "', '" . $sport . "')"
 		);
 
-		if (!$get_part) {
-		  $e = oci_error($conn);
-		  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+		if (!$set_event) {
+			$e = oci_error($conn);
+			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 		}
 
-		$r = oci_execute($get_part);
+		$r = oci_execute($set_event);
 		if (!$r) {
-		  $e = oci_error($get_part);
-		  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+			$e = oci_error($set_event);
+			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 		}
 
-		$nb_part = oci_fetch_all($get_part, $res);
-		oci_free_statement($get_part);
-		if($nb_part >= 1) {
-			if($medal === "Gold medal" || $medal === "Silver medal" || $medal === "Bronze medal") {
-				
-				$stid = oci_parse(
-				  $conn, "INSERT INTO Medals (aid, country, olympics, sport, disciplines, medal)
-				  VALUES('" . $aid . "', '" . $country . "', '" . $olympics . "', '" . $sport . "', '" . $discipline . "', '" . $medal . "')"
-				);
+		oci_free_statement($set_event);
+	}
 
-				if (!$stid) {
-				  $e = oci_error($conn);
-				  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-				}
+	//The aid exists
+	$get_part = oci_parse(
+		$conn, "SELECT * FROM Participants p WHERE p.aid = " . $aid . " AND p.olympics = '" . $olympics . "' AND p.sport = '" . $sport . "' AND p.country = '" . $country . "'"
+	);
 
-				$r = oci_execute($stid);
-				if (!$r) {
-				  $e = oci_error($stid);
-				  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-				}
+	if (!$get_part) {
+	  $e = oci_error($conn);
+	  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+	}
 
-				oci_free_statement($stid);
+	$r = oci_execute($get_part);
+	if (!$r) {
+	  $e = oci_error($get_part);
+	  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+	}
+
+	$nb_part = oci_fetch_all($get_part, $res);
+	oci_free_statement($get_part);
+	if($nb_part >= 1) {
+		if($medal === "Gold medal" || $medal === "Silver medal" || $medal === "Bronze medal") {
+			
+			$stid = oci_parse(
+			  $conn, "INSERT INTO Medals (aid, country, olympics, sport, disciplines, medal)
+			  VALUES('" . $aid . "', '" . $country . "', '" . $olympics . "', '" . $sport . "', '" . $discipline . "', '" . $medal . "')"
+			);
+
+			if (!$stid) {
+			  $e = oci_error($conn);
+			  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 			}
+
+			$r = oci_execute($stid);
+			if (!$r) {
+			  $e = oci_error($stid);
+			  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+			}
+
+			oci_free_statement($stid);
 		}
 	}
 

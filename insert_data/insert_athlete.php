@@ -1,5 +1,4 @@
 <?php
-if(!isset($isReferencing)) header('Location: ../index.php');
 if(isset($_POST['name'])){
 	$athlete_name = $_POST['name'];
 	if($athlete_name != ''){
