@@ -39,7 +39,7 @@ function restore_fields(){
       <li <?php if($isQuerySet) echo "class=\"active\"" ?>><a href="#query" data-toggle="tab">Query</a></li>
     </ul>
     <ul class="tab-content">
-      <li class="tab-pane<?php if(!$isQuerySet) echo "active"; ?>" id="keyword">
+      <li class="tab-pane <?php if(!$isQuerySet) echo "active"; ?>" id="keyword">
         <form class="form-horizontal" action="index.php?p=search" method="get">
           <?php restore_fields(); ?>
           <fieldset>
@@ -90,8 +90,7 @@ function restore_fields(){
         ?>
 
       </li>
-      <li class="tab-pane<?php if($isQuerySet) echo "active"; ?>" id="query">
-        
+      <li class="tab-pane <?php if($isQuerySet) echo "active"; ?>" id="query">
         <form class="form-horizontal" action="index.php?p=search" method="post">
           <?php restore_fields(); ?>
           <fieldset>

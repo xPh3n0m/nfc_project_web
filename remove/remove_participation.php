@@ -6,9 +6,9 @@ $aid = '';
 if(isset($_GET['aid'])){
 	$aid=$_GET['aid'];
 	if($aid>$nb_athletes && isset($_GET['g']) && isset($_GET['c']) && isset($_GET['s'])){
-		$game=$_GET['g'];
-		$country=$_GET['c'];
-		$sport=$_GET['s'];
+		$game=urldecode($_GET['g']);
+		$country=urldecode($_GET['c']);
+		$sport=urldecode($_GET['s']);
 
 	    $conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
 
@@ -19,10 +19,10 @@ if(isset($_GET['aid'])){
 
 		$stid = oci_parse(
 		  $conn, "DELETE FROM Medals m
-		  WHERE m.aid = " . $aid .
-		  " AND m.olympics = " . $game .
-		  " AND m.country = " . $country .
-		  " AND m.sport = " . $sport
+		  WHERE (m.aid = " . $aid . " 
+		  	AND m.olympics = '" . $game . "' 
+		  	AND m.country = '" . $country . "' 
+		  	AND m.sport = '" . $sport . "')"
 		);
 
 		if (!$stid) {

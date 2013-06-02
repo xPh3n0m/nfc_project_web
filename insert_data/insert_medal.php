@@ -35,7 +35,6 @@ if(isset($_POST['aid']) && isset($_POST['country']) && isset($_POST['olympics'])
 	oci_free_statement($get_event);
 
 	if($nb_event == 1) {
-		echo "\nOKOKO";
 		//The aid exists
 		$get_part = oci_parse(
 	  		$conn, "SELECT * FROM Participants p WHERE p.aid = " . $aid . " AND p.olympics = '" . $olympics . "' AND p.sport = '" . $sport . "' AND p.country = '" . $country . "'"

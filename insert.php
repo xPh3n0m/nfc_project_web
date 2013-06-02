@@ -160,7 +160,7 @@ oci_close($conn);
           <div class="control-group">
             <label class="control-label" for="medal">Medal</label>
             <div class="controls">
-              <select class="required" name="medal" id="medal" value="">
+              <select class="required" name="medal" id="medal">
                 <option value="Gold medal">Gold medal</option>
                 <option value="Silver medal">Silver medal</option>
                 <option value="Bronze medal">Bronze medal</option>
