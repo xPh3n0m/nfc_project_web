@@ -18,11 +18,11 @@ if(isset($_GET['aid'])){
 		}
 
 		$stid = oci_parse(
-		  $conn, "DELETE FROM Medals m
-		  WHERE (m.aid = " . $aid . " 
-		  	AND m.olympics = '" . $game . "' 
-		  	AND m.country = '" . $country . "' 
-		  	AND m.sport = '" . $sport . "')"
+		  $conn, "DELETE FROM Participants p
+		  WHERE (p.aid = " . $aid . " 
+		  	AND p.olympics = '" . $game . "' 
+		  	AND p.country = '" . $country . "' 
+		  	AND p.sport = '" . $sport . "')"
 		);
 
 		if (!$stid) {

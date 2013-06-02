@@ -208,9 +208,9 @@ echo "<p>Number of Bronze medals: " . $row['COUNT_MEDALS'] . "</p>";
           foreach ($row as $item) {
             echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;")."</td>\n";
           }
-          echo "<td><a href='remove/remove_participation.php?aid=" . urlencode(
-          $aid . "&amp;c=" . $row['COUNTRY'] . "&amp;g=" . $row['OLYMPICS'] .
-          "&amp;s=" . $row['SPORT']) .
+          echo "<td><a href='remove/remove_participation.php?aid=" . 
+          $aid . "&amp;c=" . urlencode($row['COUNTRY']) . "&amp;g=" . urlencode($row['OLYMPICS']) .
+          "&amp;s=" . urlencode($row['SPORT']) .
           "'><i class='icon-remove'></i></a></td>\n";
           echo "</tr>\n";
         }
@@ -263,9 +263,9 @@ echo "<p>Number of Bronze medals: " . $row['COUNT_MEDALS'] . "</p>";
           foreach ($row as $item) {
             echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;")."</td>\n";
           }
-          echo "<td><a href='remove/remove_medal.php?aid=" . urlencode(
-          $aid . "&amp;g=" . $row['OLYMPICS'] . "&amp;c=" . $row['COUNTRY'] .
-          "&amp;s=" . $row['SPORT'] . "&amp;d=" . $row['DISCIPLINES']) .
+          echo "<td><a href='remove/remove_medal.php?aid=" . 
+          $aid . "&amp;g=" . urlencode($row['OLYMPICS']) . "&amp;c=" . urlencode($row['COUNTRY']) .
+          "&amp;s=" . urlencode($row['SPORT']) . "&amp;d=" . urlencode($row['DISCIPLINES']) .
           "'><i class='icon-remove'></i></a></td>\n";
           echo "</tr>\n";
         }
