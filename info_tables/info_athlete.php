@@ -37,6 +37,7 @@ if (!$conn) {
 
   ?>
 </header>
+<p>Athlete ID: <?php echo $aid; ?></p>
 
 
 <!-- NUMBER OF PARTICIPATIONS -->
