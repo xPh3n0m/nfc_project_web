@@ -10,8 +10,8 @@ if (!$conn) {
 
 $stid = oci_parse($conn, "SELECT DISTINCT c.name, c.ioc_code
  FROM countries c
- WHERE (c.ioc_code LIKE '%" . $searchkey . "%'
-  OR c.name LIKE '%" . $searchkey . "%')");
+ WHERE (upper(c.ioc_code) LIKE '%" . strtoupper($searchkey) . "%'
+  OR upper(c.name) LIKE '%" . strtoupper($searchkey) . "%')");
 if (!$stid) {
   $e = oci_error($conn);
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);

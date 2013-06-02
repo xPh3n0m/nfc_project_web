@@ -10,9 +10,9 @@ if (!$conn) {
 
 $stid = oci_parse($conn, "SELECT DISTINCT g.name as game, g.host_country, g.host_city
  FROM games g
- WHERE (g.name LIKE '%" . $searchkey . "%'
-  OR g.host_country LIKE '%" . $searchkey . "%'
-  OR g.host_city LIKE '%" . $searchkey . "%')");
+ WHERE (upper(g.name) LIKE '%" . strtoupper($searchkey) . "%'
+  OR upper(g.host_country) LIKE '%" . strtoupper($searchkey) . "%'
+  OR upper(g.host_city) LIKE '%" . strtoupper($searchkey) . "%')");
 if (!$stid) {
   $e = oci_error($conn);
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);

@@ -10,8 +10,8 @@ if (!$conn) {
 $stid = oci_parse(
   $conn, "SELECT DISTINCT a.aid, a.name
   FROM athletes a
-  WHERE (a.aid LIKE '%" . $searchkey . "%'
-   OR a.name LIKE '%" . $searchkey . "%')
+  WHERE (upper(a.aid) LIKE '%" . strtoupper($searchkey) . "%'
+   OR upper(a.name) LIKE '%" . strtoupper($searchkey) . "%')
   ORDER BY a.aid ASC"
 );
 
