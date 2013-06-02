@@ -185,29 +185,29 @@ oci_close($conn);
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label" for="aid">Athlete's ID</label>
+            <label class="control-label" for="maid">Athlete's ID</label>
             <div class="controls">
-              <input type="text" class="input-small required" name="aid" id="aid">
+              <input type="text" class="input-small required" name="aid" id="maid">
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label" for="country">Country</label>
+            <label class="control-label" for="mcountry">Country</label>
             <div class="controls">
-              <input type="text" class="input-xlarge required" name="country" id="country"
+              <input type="text" class="input-xlarge required" name="country" id="mcountry"
               autocomplete="off" data-items="10" data-provide="typeahead" data-source='<?php echo $countries; ?>'>
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label" for="olympic">Olympic</label>
+            <label class="control-label" for="molympic">Olympic</label>
             <div class="controls">
-              <input type="text" class="input-xlarge required" name="olympics" id="olympic"
+              <input type="text" class="input-xlarge required" name="olympics" id="molympic"
               autocomplete="off" data-items="10" data-provide="typeahead" data-source='<?php echo $olympics; ?>'>
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label" for="sport">Sport</label>
+            <label class="control-label" for="msport">Sport</label>
             <div class="controls">
-              <input type="text" class="input-xlarge required" name="sport" id="sport"
+              <input type="text" class="input-xlarge required" name="sport" id="msport"
               autocomplete="off" data-items="10" data-provide="typeahead" data-source='<?php echo $sports; ?>'>
             </div>
           </div>
