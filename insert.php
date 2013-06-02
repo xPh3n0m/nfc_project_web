@@ -175,9 +175,9 @@ oci_close($conn);
         <fieldset>
           <legend>Add a medal</legend>
           <div class="control-group">
-            <label class="control-label" for="medal">Medal</label>
+            <label class="control-label" for="mmedal">Medal</label>
             <div class="controls">
-              <select class="required" name="medal" id="medal">
+              <select class="required" name="medal" id="mmedal">
                 <option value="Gold medal">Gold medal</option>
                 <option value="Silver medal">Silver medal</option>
                 <option value="Bronze medal">Bronze medal</option>
