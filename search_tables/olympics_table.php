@@ -51,7 +51,6 @@ echo '<span class="label label-success">in '.number_format($totaltime, 3).' seco
       <th>Olympic Game</th>
       <th>Host Country</th>
       <th>Host City</th>
-      <th>Remove</th>
       <th>Show more</th>
     </tr>
   </thead>
