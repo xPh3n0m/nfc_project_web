@@ -1,4 +1,21 @@
 <?php
+if(!isset($isReferencing)) header('Location: index.php');
+
+$msgs = array('Athlete inserted correctly!', 'Participant inserted correctly!', 'Medal inserted correctly!',
+  'Error! The operation didn\'t complete successfully...');
+if(isset($_GET['m'])){
+  $m = $_GET['m'];
+  if($m >= 0 && $m < 4){
+    if($m < 3){ // Success
+      echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">×</button>' .
+      $msgs[$m] . '</div>';
+    } else {  // Error
+      echo '<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>' .
+      $msgs[$m] . '</div>';
+    }
+  }
+}
+
 $conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
 
 // get country names

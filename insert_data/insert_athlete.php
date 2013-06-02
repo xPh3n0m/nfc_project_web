@@ -1,4 +1,5 @@
 <?php
+$msg = 3;
 if(isset($_POST['name'])){
 	$athlete_name = $_POST['name'];
 	if($athlete_name != ''){
@@ -24,6 +25,8 @@ if(isset($_POST['name'])){
 		if (!$r) {
 			$e = oci_error($stid);
 			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+		} else {
+			$msg = 0;
 		}
 
 		oci_free_statement($stid);
@@ -31,5 +34,5 @@ if(isset($_POST['name'])){
 	}
 }
 
-header('Location: ../index.php?p=insert');
+header('Location: ../index.php?p=insert&m=' . $msg);
 ?>
