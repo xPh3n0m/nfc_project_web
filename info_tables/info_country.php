@@ -1,14 +1,29 @@
 <?php
 if(!isset($isReferencing)) header('Location: ../index.php');
 if(!isset($_GET['id'])) header('Location: index.php');
-$country = $_GET['id'];
+$country = str_replace("'", "''", $_GET['id']);
 
-$conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
+$conn = oci_connect('db2013_g014_select', 'selectonly', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
 
 if (!$conn) {
   $e = oci_error();
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
+
+// alter session
+$stid = oci_parse($conn, "alter session set current_schema=db2013_g14");
+
+if (!$stid) {
+  $e = oci_error($conn);
+  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+  $e = oci_error($stid);
+  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+// end alter session
 
 ?>
 
