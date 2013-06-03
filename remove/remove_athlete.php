@@ -4,9 +4,9 @@ $nb_athletes = 67261;
 $k = '';
 
 if(isset($_GET['k'])){
-	$k=$_GET['k'];
+	$k=str_replace("'", "''", $_GET['k']);
 	if(isset($_GET['aid'])){
-		$aid=$_GET['aid'];
+		$aid=str_replace("'", "''", $_GET['aid']);
 		if($aid>$nb_athletes && $k!=''){
 		    
 		    $conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');

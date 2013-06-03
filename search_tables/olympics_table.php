@@ -1,7 +1,7 @@
 <?php
 
 if(!isset($isReferencing)) header('Location: ../index.php');
-$conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
+$conn = oci_connect('db2013_g014_select', 'selectonly', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
 
 if (!$conn) {
   $e = oci_error();

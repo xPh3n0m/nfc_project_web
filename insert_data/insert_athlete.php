@@ -1,7 +1,7 @@
 <?php
 $msg = 3;
 if(isset($_POST['name'])){
-	$athlete_name = $_POST['name'];
+	$athlete_name = str_replace("'", "''", $_POST['name']);
 	if($athlete_name != ''){
 
 		$conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');

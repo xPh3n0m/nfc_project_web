@@ -1,10 +1,10 @@
 <?php
 $msg = 3;
 if(isset($_POST['aid']) && isset($_POST['country']) && isset($_POST['olympics']) && isset($_POST['sport'])) {
-	$aid = $_POST['aid'];
-	$country = $_POST['country'];
-	$olympics = $_POST['olympics'];
-	$sport = $_POST['sport'];
+	$aid = str_replace("'", "''", $_POST['aid']);
+	$country = str_replace("'", "''", $_POST['country']);
+	$olympics = str_replace("'", "''", $_POST['olympics']);
+	$sport = str_replace("'", "''", $_POST['sport']);
 	if($aid != '' && $country != '' && $olympics != '' && $sport != ''){
 
 		$conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
@@ -95,7 +95,7 @@ if(isset($_POST['aid']) && isset($_POST['country']) && isset($_POST['olympics'])
 					if($nb_sports == 1) {
 
 						if(isset($_POST['teamname'])) {
-							$teamname = $_POST['teamname'];
+							$teamname = str_replace("'", "''", $_POST['teamname']);
 
 							$stid = oci_parse(
 						  	$conn, "INSERT INTO Participants (aid, country, olympics, sport, team_name)

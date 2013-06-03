@@ -1,12 +1,12 @@
 <?php
 $msg = 3;
 if(isset($_POST['aid']) && isset($_POST['country']) && isset($_POST['olympics']) && isset($_POST['sport']) && isset($_POST['medal']) && isset($_POST['discipline'])) {
-	$aid = $_POST['aid'];
-	$country = $_POST['country'];
-	$olympics = $_POST['olympics'];
-	$sport = $_POST['sport'];
-	$medal = $_POST['medal'];
-	$discipline = $_POST['discipline'];
+	$aid = str_replace("'", "''", $_POST['aid']);
+	$country = str_replace("'", "''", $_POST['country']);
+	$olympics = str_replace("'", "''", $_POST['olympics']);
+	$sport = str_replace("'", "''", $_POST['sport']);
+	$medal = str_replace("'", "''", $_POST['medal']);
+	$discipline = str_replace("'", "''", $_POST['discipline']);
 	if($aid != '' && $country != '' && $olympics != '' && $sport != '' && $medal != '' && $discipline != ''){
 
 		$conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
@@ -14,7 +14,6 @@ if(isset($_POST['aid']) && isset($_POST['country']) && isset($_POST['olympics'])
 		  $e = oci_error();
 		  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 		}
-
 
 		$get_event = oci_parse(
 		  $conn, "SELECT * FROM Events e WHERE e.olympics = '" . $olympics . "' AND e.disciplines = '" . $discipline . "' AND e.sport = '" . $sport . "'"
@@ -84,10 +83,7 @@ if(isset($_POST['aid']) && isset($_POST['country']) && isset($_POST['olympics'])
 				}
 
 				$r = oci_execute($stid);
-				if (!$r) {
-				  $e = oci_error($stid);
-				  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-				} else {
+				if ($r) {
 					$msg = 2;
 				}
 

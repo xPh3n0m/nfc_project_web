@@ -16,7 +16,7 @@ if(isset($_GET['k'])){
   }
 }
 
-// This function ensures that entered fields are correctly restored
+// This function ensures that entered fields are restored
 function restore_fields(){
   $keys = array('p');
   foreach($keys as $name) {

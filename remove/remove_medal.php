@@ -4,12 +4,12 @@ $nb_athletes = 67261;
 $aid = '';
 
 if(isset($_GET['aid'])){
-	$aid=$_GET['aid'];
+	$aid=str_replace("'", "''", $_GET['aid']);
 	if($aid>$nb_athletes && isset($_GET['g']) && isset($_GET['c']) && isset($_GET['s']) && isset($_GET['d'])){
-		$game=$_GET['g'];
-		$country=$_GET['c'];
-		$sport=$_GET['s'];
-		$discipline=$_GET['d'];
+		$game=str_replace("'", "''", urldecode($_GET['g']));
+		$country=str_replace("'", "''", urldecode($_GET['c']));
+		$sport=str_replace("'", "''", urldecode($_GET['s']));
+		$discipline=str_replace("'", "''", $_GET['d']);
 
 	    $conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
 
