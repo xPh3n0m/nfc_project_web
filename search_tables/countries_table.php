@@ -8,10 +8,25 @@ if (!$conn) {
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
+// alter session
+$stid = oci_parse($conn, "alter session set current_schema=db2013_g14");
+
+if (!$stid) {
+  $e = oci_error($conn);
+  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+  $e = oci_error($stid);
+  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+// end alter session
+
 $stid = oci_parse($conn, "SELECT DISTINCT c.name, c.ioc_code
  FROM countries c
- WHERE (upper(c.ioc_code) LIKE '%" . strtoupper($searchkey) . "%'
-  OR upper(c.name) LIKE '%" . strtoupper($searchkey) . "%')");
+ WHERE (upper(c.ioc_code) LIKE upper('%" . $searchkey . "%')
+  OR upper(c.name) LIKE upper('%" . $searchkey . "%'))");
 if (!$stid) {
   $e = oci_error($conn);
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);

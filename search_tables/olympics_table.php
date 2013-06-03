@@ -8,11 +8,26 @@ if (!$conn) {
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
+// alter session
+$stid = oci_parse($conn, "alter session set current_schema=db2013_g14");
+
+if (!$stid) {
+  $e = oci_error($conn);
+  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+  $e = oci_error($stid);
+  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+// end alter session
+
 $stid = oci_parse($conn, "SELECT DISTINCT g.name as game, g.host_country, g.host_city
  FROM games g
- WHERE (upper(g.name) LIKE '%" . strtoupper($searchkey) . "%'
-  OR upper(g.host_country) LIKE '%" . strtoupper($searchkey) . "%'
-  OR upper(g.host_city) LIKE '%" . strtoupper($searchkey) . "%')");
+ WHERE (upper(g.name) LIKE upper('%" . $searchkey . "%')
+  OR upper(g.host_country) LIKE upper('%" . $searchkey . "%')
+  OR upper(g.host_city) LIKE upper('%" . $searchkey . "%'))");
 if (!$stid) {
   $e = oci_error($conn);
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);

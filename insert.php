@@ -225,4 +225,3 @@ oci_close($conn);
     </div>
   </div>
 </section>
-<script src="/twitter-bootstrap/twitter-bootstrap-v2/docs/assets/js/bootstrap-typeahead.js"></script>

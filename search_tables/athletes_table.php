@@ -7,10 +7,25 @@ if (!$conn) {
   trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
+// alter session
+$stid = oci_parse($conn, "alter session set current_schema=db2013_g14");
+
+if (!$stid) {
+  $e = oci_error($conn);
+  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+  $e = oci_error($stid);
+  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+// end alter session
+
 $stid = oci_parse(
   $conn, "SELECT DISTINCT a.aid, a.name
   FROM athletes a
-  WHERE (upper(a.aid) LIKE '%" . strtoupper($searchkey) . "%'
+  WHERE (a.aid LIKE '%" . $searchkey . "%'
    OR upper(a.name) LIKE '%" . strtoupper($searchkey) . "%')
   ORDER BY a.aid ASC"
 );
