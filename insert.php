@@ -2,10 +2,13 @@
 if(!isset($isReferencing)) header('Location: index.php');
 
 $msgs = array('Athlete inserted correctly!', 'Participant inserted correctly!', 'Medal inserted correctly!',
-  'Error! The operation didn\'t complete successfully...');
+  'Error! The operation didn\'t complete successfully...', 'No athlete has this ID...', 'Country not found...',
+  'Olympics not found...', 'Sport not found...', 'Event not found...', 'Participant not found...',
+  'This combination of olympic, sport and discipline cannot exist due to a constraint. Get more information on 
+  the data you want to insert first, and then come back to me.');
 if(isset($_GET['m'])){
   $m = $_GET['m'];
-  if($m >= 0 && $m < 4){
+  if($m >= 0 && $m < count($msgs)){
     if($m < 3){ // Success
       echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">×</button>' .
       $msgs[$m] . '</div>';
@@ -16,7 +19,26 @@ if(isset($_GET['m'])){
   }
 }
 
-$conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
+$conn = oci_connect('db2013_g014_select', 'selectonly', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
+if (!$conn) {
+  $e = oci_error();
+  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+// alter session
+$stid = oci_parse($conn, "alter session set current_schema=db2013_g14");
+
+if (!$stid) {
+  $e = oci_error($conn);
+  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$r = oci_execute($stid);
+if (!$r) {
+  $e = oci_error($stid);
+  trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+// end alter session
 
 // get country names
 $stid = oci_parse($conn, "select name from countries order by name asc");

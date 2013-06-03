@@ -22,10 +22,7 @@ if(isset($_POST['name'])){
 		}
 
 		$r = oci_execute($stid);
-		if (!$r) {
-			$e = oci_error($stid);
-			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-		} else {
+		if ($r) {
 			$msg = 0;
 		}
 
