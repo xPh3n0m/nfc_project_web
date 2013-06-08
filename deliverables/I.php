@@ -22,8 +22,8 @@ $olympics_array = $olympics_array . "\"]";
 oci_free_statement($stid);
 oci_close($conn);
 
-if(isset($_GET['o'])){
-	$olympic = $_GET['o'];
+if(isset($_POST['o'])){
+	$olympic = $_POST['o'];
 	if(in_array($olympic, $olympics_array)){
 		$header = 'I. Compute medal table for the '.$olympic.'. Medal table should contain 
 		country’s IOC code followed by the number of gold, silver, bronze and total medals. It should first be 
@@ -42,7 +42,7 @@ order by Gold_medal desc, Silver_medal desc, Bronze_medal desc';
 
 $columns = array('Country', 'Gold Medals', 'Silver Medals', 'Bronze Medals', 'Total');
 ?>
-<form class="form-horizontal" id="I-form" action="index.php?p=deliverable&amp;l=I" method="get">
+<form class="form-horizontal" id="I-form" action="index.php?p=deliverable&amp;l=I" method="post">
 	<fieldset>
 		<div class="control-group">
 			<label class="control-label" for="olympic">Select an olympic:</label>
