@@ -1,20 +1,4 @@
 <?php
-$olympics = array();
-if(isset($_POST['o'])){
-	$olympic = $_POST['o'];
-	$header = 'I. Compute medal table for the '.$olympic.'. Medal table should contain 
-	country’s IOC code followed by the number of gold, silver, bronze and total medals. It should first be 
-	sorted by the number of gold, then silvers and finally bronzes.';
-
-	$sql = 'select m.country, 
-		sum(case m.medal when \'Gold medal\' then 1 else 0 end) as Gold_medal, 
-		sum(case m.medal when \'Silver medal\' then 1 else 0 end) as Silver_medal, 
-		sum(case m.medal when \'Bronze medal\' then 1 else 0 end) as Bronze_medal, 
-		count(*) as Total
-	from (select distinct medal, olympics, country, sport, disciplines from medals where olympics = \''.$olympic.'\') m
-	group by m.country
-	order by Gold_medal desc, Silver_medal desc, Bronze_medal desc';
-}
 $conn = oci_connect('db2013_g14', 'gwathivin', '//icoracle.epfl.ch:1521/srso4.epfl.ch');
 $stid = oci_parse($conn, "select name from games order by name desc");
 
@@ -38,9 +22,27 @@ $olympics_array = $olympics_array . "\"]";
 oci_free_statement($stid);
 oci_close($conn);
 
+if(isset($_GET['o'])){
+	$olympic = $_GET['o'];
+	if(in_array($olympic, $olympics_array)){
+		$header = 'I. Compute medal table for the '.$olympic.'. Medal table should contain 
+		country’s IOC code followed by the number of gold, silver, bronze and total medals. It should first be 
+		sorted by the number of gold, then silvers and finally bronzes.';
+
+		$sql = 'select m.country, 
+	sum(case m.medal when \'Gold medal\' then 1 else 0 end) as Gold_medal, 
+	sum(case m.medal when \'Silver medal\' then 1 else 0 end) as Silver_medal, 
+	sum(case m.medal when \'Bronze medal\' then 1 else 0 end) as Bronze_medal, 
+	count(*) as Total
+from (select distinct medal, olympics, country, sport, disciplines from medals where olympics = \''.$olympic.'\') m
+group by m.country
+order by Gold_medal desc, Silver_medal desc, Bronze_medal desc';
+	}
+}
+
 $columns = array('Country', 'Gold Medals', 'Silver Medals', 'Bronze Medals', 'Total');
 ?>
-<form class="form-horizontal" id="I-form" action="index.php?p=deliverable&amp;l=I" method="post">
+<form class="form-horizontal" id="I-form" action="index.php?p=deliverable&amp;l=I" method="get">
 	<fieldset>
 		<div class="control-group">
 			<label class="control-label" for="olympic">Select an olympic:</label>
