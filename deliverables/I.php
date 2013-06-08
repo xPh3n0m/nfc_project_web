@@ -46,7 +46,7 @@ $columns = array('Country', 'Gold Medals', 'Silver Medals', 'Bronze Medals', 'To
 			<label class="control-label" for="olympic">Select an olympic:</label>
 			<div class="controls">
 				<input type="text" class="input-xlarge required" name="o" id="olympic" placeholder="2012 Summer Olympics"
-				autocomplete="off" data-items="10" data-provide="typeahead" data-source='<?php echo $olympics_array; ?>' autofocus>
+				autocomplete="off" data-items="10" data-provide="typeahead" data-source='<?php echo $olympics_array; ?>' <?php if(!$header) echo "autofocus"; ?>>
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</div>
 		</div>

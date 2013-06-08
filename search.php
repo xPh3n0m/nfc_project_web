@@ -47,7 +47,7 @@ function restore_fields(){
             <div class="control-group">
               <label class="control-label" for="k">Keyword <b style="color:red;">*</b></label>
               <div class="controls">
-                <input type="text" class="input-xlarge" name="k" id="k" value="<?php echo $keyword; ?>" autofocus>
+                <input type="text" class="input-xlarge" name="k" id="k" value="<?php echo $keyword; ?>" <?php if(!$isKeyWordSet) echo "autofocus"; ?>>
               </div>
             </div>
             <div class="form-actions">
