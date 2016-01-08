@@ -79,10 +79,12 @@ $db = pg_connect('host=nfcprojectinstance.cpx69rsmkoux.us-west-2.rds.amazonaws.c
 	?>
 </table>
 
+
+<!-- LOAD FOOD & DRINKS MENU -->
 <?php
 
 // get menu items
-$query = "SELECT iid, name FROM menu_items WHERE iid > 1";
+$query = "SELECT mi.iid, mi.name FROM menu_items mi WHERE mi.iid > 1 AND mi.iid NOT IN (SELECT gi.iid FROM group_items gi WHERE gi.gpid = " . $gpid .")";
 
 $result = pg_query($query); 
 if (!$result) { 
@@ -97,22 +99,18 @@ while ($row = pg_fetch_row($result)) {
   $num_results++;
 }
 
-$menu_items = "[\"";
-while ($row = pg_fetch_row($result)) {
-  $menu_items = $menu_items . "\", \"" . $row[0];
-}
-$menu_items = $menu_items . "\"]";
-
 ?>
 
-<!-- FOOD & DRINKS MENU -->
+<!-- DISPLAY FOOD & DRINKS MENU -->
 <form class="form-horizontal" action="insert_data/insert_item_catering.php" method="POST">
 	<fieldset>
 	  <legend>Add an item to the menu</legend>
 	  <div class="control-group">
 		<label class="control-label" for="iid">Menu Item</label>
 		<div class="controls">
-			<select name="iid">
+			<input type='hidden' id="gpid" name='gpid' value='<?php echo $gpid?>' />
+			<input type='hidden' id="location" name='location' value='<?php echo "catering"?>' />
+			<select id="iid" name="iid">
 				<?php
 				while (!empty($table)) {
 					$row = array_shift($table);

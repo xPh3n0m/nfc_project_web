@@ -20,7 +20,7 @@
     
     <?php
     $isReferencing = True;
-    $pages=array("home"=>"active", "search"=>"", "info"=>"", "insert"=>"", "deliverable"=>"", "guest"=>"", "catering"=>"", "menu"=>"");
+    $pages=array("home"=>"active", "info"=>"", "guest"=>"", "catering"=>"", "menu"=>"");
     $content='home';
 
     if(isset($_GET['p'])){
@@ -28,6 +28,12 @@
       if(array_key_exists($page, $pages)){
         $pages['home']='';
         if($page == 'info'){
+			$info_page=$_GET['a'];
+			if($info_page=='menu_item') {
+				$pages['menu']='active';
+			} else {
+				$pages[$info_page]='active';
+			}
           $pages['search']='active';
         } else {
           $pages[$page]='active';
@@ -52,8 +58,6 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="<?php page('home'); ?>"><a href="index.php?p=home">Home</a></li>
-              <li class="<?php page('search'); ?>"><a href="index.php?p=search">Search</a></li>
-              <li class="<?php page('insert'); ?>"><a href="index.php?p=insert">Insert data</a></li>
 			  <li class="<?php page('guest'); ?>"><a href="index.php?p=guest">Guest</a></li>
 			  <li class="<?php page('catering'); ?>"><a href="index.php?p=catering">Catering companies</a></li>
 			  <li class="<?php page('menu'); ?>"><a href="index.php?p=menu">Menu</a></li>
