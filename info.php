@@ -1,6 +1,6 @@
 <?php
 if(!isset($isReferencing)) header('Location: index.php');
-$info = array('athlete', 'country', 'game');
+$info = array('athlete', 'country', 'game', 'guest');
 if(isset($_GET['a'])){
 	$about=$_GET['a'];
 	if(in_array($about, $info)){

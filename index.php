@@ -1,12 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Olympics 14</title>
+    <title>NFC Project</title>
     <link rel="icon" href="img/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Olympics 14 is a Introduction to Database Systems project from group #14">
+    <meta name="description" content="Use NFC wristbands in festivals">
     <meta name="author" content="">
 
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -21,7 +20,7 @@
     
     <?php
     $isReferencing = True;
-    $pages=array("home"=>"active", "search"=>"", "info"=>"", "insert"=>"", "deliverable"=>"");
+    $pages=array("home"=>"active", "search"=>"", "info"=>"", "insert"=>"", "deliverable"=>"", "guest"=>"", "catering"=>"");
     $content='home';
 
     if(isset($_GET['p'])){
@@ -49,12 +48,14 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="index.php">Olympics 14</a>
+          <a class="brand" href="index.php">NFC Project</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="<?php page('home'); ?>"><a href="index.php?p=home">Home</a></li>
               <li class="<?php page('search'); ?>"><a href="index.php?p=search">Search</a></li>
               <li class="<?php page('insert'); ?>"><a href="index.php?p=insert">Insert data</a></li>
+			  <li class="<?php page('guest'); ?>"><a href="index.php?p=guest">Guest</a></li>
+			  <li class="<?php page('catering'); ?>"><a href="index.php?p=catering">Catering companies</a></li>
               <li class="dropdown <?php page('deliverable') ?>">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Deliverable queries <b class="caret"></b></a>
                 <ul class="dropdown-menu">
