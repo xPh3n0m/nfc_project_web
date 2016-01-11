@@ -83,13 +83,29 @@ var currentMessage;
 </section>
 
 <button onclick="registerWristband()" class="btn btn-primary" disabled="disabled" type="button" id="reg_wristband_button">Register Wristband</button>
-<button class="btn btn-primary" disabled="disabled" type="button" id="reg_guest_button">Register new Guest</button>
+<button onclick="registerGuest()" class="btn btn-primary" disabled="disabled" type="button" id="reg_guest_button">Register new Guest</button>
 <button class="btn btn-primary" disabled="disabled" type="button" id="update_guest_button">Update Guest</button>
 <button onclick="unregisterWristband()" class="btn btn-primary" disabled="disabled" type="button" id="unreg_wristband_button">Unregister Wristband</button>
 </body>
 
 
 <script>
+  function registerGuest() {
+    var data = {};
+    data.gid=currentMessage.gid;
+
+    if($('#anonymous').is(":checked")) {
+      data.anonymous=true;
+    } else {
+      data.anonymous=false;
+      data.first_name=$('#first_name');
+      data.last_name=$('#last_name');
+      data.email=$('#email');
+    }
+
+    socket.emit('register_guest', data);
+  }
+
   function registerWristband() {
     var data = {};
     data.gid=-1;

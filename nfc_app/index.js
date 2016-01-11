@@ -54,7 +54,7 @@ io.on('connection', function(socket){
       client.query('BEGIN', function(err) {
         if(err) return rollback(client, done);
         process.nextTick(function() {
-          var selectWristbandQuery = 'SELECT w.wid, w.balance, w.status, w.uid FROM wristband w WHERE w.uid = $1::bytea';
+          var selectWristbandQuery = 'SELECT w.wid, w.balance, w.status, w.uid, w.gid FROM wristband w WHERE w.uid = $1::bytea';
           client.query(selectWristbandQuery, [data.message], function(err, result) {
             if(err) return rollback(client, done);
             var wristband = {};
@@ -63,14 +63,20 @@ io.on('connection', function(socket){
               wristband=result.rows[0];
               if(wristband.gid>0) {
                 var selectGuestQuery = 'SELECT g.first_name, g.last_name, g.email, g.anonymous FROM guest g WHERE g.gid = $1';
-                client.query(selectGuestQuery, wristband.gid, function(err, res) {
+                client.query(selectGuestQuery, [wristband.gid], function(err, res) {
                   if(err) return rollback(client, done);
                   if(typeof res.rows[0] != 'undefined') {
+
                     wristband.first_name=res.rows[0].first_name;
                     wristband.last_name=res.rows[0].last_name;
                     wristband.email=res.rows[0].email;
                     wristband.anonymous=res.rows[0].anonymous;
                   }
+
+                  console.log("Wrisband sent to client: " + wristband.uid);
+                  socket.broadcast.to(data.room).emit('nfc_card_connected_message', {
+                    message: wristband
+                  });
 
                 });
               }
@@ -78,11 +84,11 @@ io.on('connection', function(socket){
               wristband = data;
               wristband.uid=data.message;
               delete wristband.message;
+              console.log("Wrisband sent to client: " + wristband.uid);
+              socket.broadcast.to(data.room).emit('nfc_card_connected_message', {
+                message: wristband
+              });
             }
-            console.log("Wrisband sent to client: " + wristband.uid);
-            socket.broadcast.to(data.room).emit('nfc_card_connected_message', {
-              message: wristband
-            });
           });
         });
       });
@@ -109,14 +115,47 @@ io.on('connection', function(socket){
       message: unregData
     });
   });
+
+  socket.on('register_guest', function(data) {
+    var regData = registerGuest(data);
+    socket.broadcast.to(data.room).emit('register_guest_succesful', {
+      message: regData
+    });
+  });
 });
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
 });
 
+function registerGuest(data) {
+  console.log("Guest to register: " data.gid);
+  pg.connect(connectionString, function(err, client, done) {
+    if(err) {
+      return console.error('error fetching client from pool', err);
+    }
+    process.nextTick(function() {
+      var registerGuestQuery = 'INSERT INTO guest (first_name, last_name, email, anonymous) VALUES ($1, $2, $3, $4) RETURNING gid;';
+      client.query(registerGuestQuery, [data.first_name, data.last_name, data.email, data.anonymous], function(err, result) {
+        if(err) return rollback(client, done);
+        var guest = {};
+        if(typeof result.rows[0] != 'undefined') {
+          guest.gid = result.rows[0].gid;
+          var regGuestWithWristband = 'UPDATE wristband SET status = $1, gid = $2 WHERE wid = $3;';
+          client.query(regGuestWithWristband, ['A', guest.gid, data.wid], function(err, res) {
+            if(err) return rollback(client, done);
+            return guest;
+          });
+        }
+      });
+    });
+
+
+  });
+}
+
 function registerWristband(data) {
-    console.log("Data to register: " + data.gid);
+    console.log("Data to register: " + data.wid);
 
     pg.connect(connectionString, function(err, client, done) {
       if(err) {
