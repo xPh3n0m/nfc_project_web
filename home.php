@@ -7,4 +7,8 @@ This web front-end application serves the purpose of interacting with NFC wristb
 Thierry Nyfeler, January 2016
 </p>
 
-<div id="place"></div>
+<div id="nfc_web_app">
+<h4>
+	<a href="index.php?p=nfc_app">NFC App</a>
+</h4>
+</div>

@@ -20,7 +20,7 @@
     
     <?php
     $isReferencing = True;
-    $pages=array("home"=>"active", "info"=>"", "guest"=>"", "catering"=>"", "menu"=>"", "transaction"=>"");
+    $pages=array("home"=>"active", "info"=>"", "guest"=>"", "catering"=>"", "menu"=>"", "transaction"=>"", "nfc_app"=>"");
     $content='home';
 
     if(isset($_GET['p'])){
@@ -28,17 +28,21 @@
       if(array_key_exists($page, $pages)){
         $pages['home']='';
         if($page == 'info'){
-			$info_page=$_GET['a'];
-			if($info_page=='menu_item') {
-				$pages['menu']='active';
-			} else {
-				$pages[$info_page]='active';
-			}
-          $pages['search']='active';
+    			$info_page=$_GET['a'];
+    			if($info_page=='menu_item') {
+    				$pages['menu']='active';
+    			} else {
+    				$pages[$info_page]='active';
+    			}
         } else {
           $pages[$page]='active';
         }
-        $content=$page;
+
+        if($page=='nfc_app') 
+          $content='nfc_app/index';
+        else
+          $content=$page;
+        
       }
     }
 
@@ -58,6 +62,7 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="<?php page('home'); ?>"><a href="index.php?p=home">Home</a></li>
+              <li class="<?php page('menu'); ?>"><a href="index.php?p=nfc_app">NFC App</a></li>
 			  <li class="<?php page('guest'); ?>"><a href="index.php?p=guest">Guest</a></li>
 			  <li class="<?php page('catering'); ?>"><a href="index.php?p=catering">Catering companies</a></li>
 			  <li class="<?php page('menu'); ?>"><a href="index.php?p=menu">Menu</a></li>
