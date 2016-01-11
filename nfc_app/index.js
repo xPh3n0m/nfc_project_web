@@ -22,6 +22,25 @@ app.get('/nfc_app', function(req, res){
 });
 
 io.on('connection', function(socket){
+  socket.on('subscribe', function(room) {
+    console.log('joining room ', room);
+    socket.join(room);
+  });
+
+  socket.on('nfc_card_connected', function(data) {
+    console.log('sending room post', data.room);
+    socket.broadcast.to(data.room).emit('nfc_card_connected_message', {
+        message: data.message
+    });
+  });
+
+  socket.on('nfc_card_disconnected', function(data) {
+    console.log('sending room post', data.room);
+    socket.broadcast.to(data.room).emit('nfc_card_disconnected_message', {
+        message: data.message
+    });
+  });
+/*
   socket.on('nfc_card_connected', function(msg){
   	console.log("NFC Card connected. UID: " + msg);
     io.emit('nfc_card_connected', msg);
@@ -30,7 +49,7 @@ io.on('connection', function(socket){
   socket.on('nfc_card_disconnected', function (msg) {
     console.log("NFC Card disconnected. UID: " + msg);
     io.emit('nfc_card_disconnected', msg);
-  });
+  });*/
 });
 
 http.listen(3000, function(){

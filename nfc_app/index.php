@@ -7,15 +7,21 @@ if(!isset($isReferencing)) header('Location: index.php');
 <script>
   $( document ).ready(function() {
       var socket = io.connect('http://localhost:3000');
-      socket.on('nfc_card_connected', function(msg){
-        $('#wid').val(msg);
+      var sessionid = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+      $('#sid').html(sessionid);
+      socket.emit('subscribe', sessionid);
+
+      socket.on('nfc_card_connected_message', function(msg){
+        $('#wid').val(msg.message);
       });
-      socket.on('nfc_card_disconnected', function(msg){
+      socket.on('nfc_card_disconnected_message', function(msg){
         $('#wid').val('');
       });
   });
 </script>
 <body>
+
+<h4>Session id: <div id="sid"></div></h4>
 <section class="container content">
   <fieldset>
     <legend>NFC Application</legend>
