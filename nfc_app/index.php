@@ -20,8 +20,18 @@ var currentMessage;
         });
 
       socket.on('nfc_card_disconnected_message', function(msg){
-          currentMessage = null;
+          delete currentMessage;
           handleNfcDisconnectionMessage(msg.message);
+      });
+
+      socket.on('register_wristband_succesful', function(msg){
+        currentMessage = msg.message;
+        handleNfcConnectionMessage(msg.message);
+      });
+
+      socket.on('unregister_wristband_succesful', function(msg){
+        delete currentMessage;
+        handleNfcConnectionMessage(msg.message);
       });
   });
 </script>
@@ -75,6 +85,7 @@ var currentMessage;
 <button onclick="registerWristband()" class="btn btn-primary" disabled="disabled" type="button" id="reg_wristband_button">Register Wristband</button>
 <button class="btn btn-primary" disabled="disabled" type="button" id="reg_guest_button">Register new Guest</button>
 <button class="btn btn-primary" disabled="disabled" type="button" id="update_guest_button">Update Guest</button>
+<button onclick="unregisterWristband()" class="btn btn-primary" disabled="disabled" type="button" id="unreg_wristband_button">Unregister Wristband</button>
 </body>
 
 
@@ -88,6 +99,10 @@ var currentMessage;
     socket.emit('register_wristband', data);
   }
 
+  function unregisterWristband() {
+    socket.emit('unregister_wristband', currentMessage);
+  }
+
   function handleNfcConnectionMessage(message) {
     $('#uid').html(message.uid);
     if (typeof message.wid == 'undefined') {
@@ -95,9 +110,10 @@ var currentMessage;
     } else {
       $('#wid').val(message.wid);
       $('#balance').val(message.balance);
-      
+
       if(typeof message.gid == 'undefined') {
         $('#reg_guest_button').removeAttr('disabled');
+        $('#unreg_wristband_button').removeAttr('disabled');
       } else {
         $('#first_name').val(message.first_name);
         $('#last_name').val(message.last_name);
@@ -133,6 +149,7 @@ var currentMessage;
     $('#anonymous').attr('disabled','disabled');
 
     $('#reg_wristband_button').attr('disabled','disabled');
+    $('#unreg_wristband_button').attr('disabled','disabled');
     $('#reg_guest_button').attr('disabled','disabled');
     $('#update_guest_button').attr('disabled','disabled');
   }

@@ -87,31 +87,6 @@ io.on('connection', function(socket){
         });
       });
     });
-/*
-      client.query('SELECT w.wid, w.balance, g.gid, g.first_name, g.last_name, g.email, g.anonymous from wristband w, guest g WHERE w.uid = $1::bytea AND w.gid = g.gid', [data.message], function(err, result) {
-        //call `done()` to release the client back to the pool
-        done();
-
-        if(err) {
-          return console.error('error running query', err);
-        }
-        //console.log(result.rows[0]);
-        //output: 1
-        var wristband = {};
-        if(typeof result.rows[0] != 'undefined') {
-          wristband=result.rows[0];
-        } else {
-          data.balance=0.0;
-          data.gid=-1;
-          data.status='U';
-          wristband = registerWristband(data);
-        }
-
-        console.log(wristband);
-        socket.broadcast.to(data.room).emit('nfc_card_connected_message', {
-          message: wristband
-        });
-      });*/
   });
 
   socket.on('nfc_card_disconnected', function(data) {
@@ -125,6 +100,13 @@ io.on('connection', function(socket){
     var regData = registerWristband(data);
     socket.broadcast.to(data.room).emit('register_wristband_succesful', {
       message: regData
+    });
+  });
+
+  socket.on('unregister_wristband', function(data) {
+    var unregData = unregisterWristband(data);
+    socket.broadcast.to(data.room).emit('unregister_wristband_succesful', {
+      message: unregData
     });
   });
 });
@@ -155,3 +137,25 @@ function registerWristband(data) {
       });
     });
   }
+
+function unregisterWristband(data) {
+  console.log("Unregistering wristband wid = " + data.wid);
+  pg.connect(connectionString, function(err, client, done) {
+      if(err) {
+        return console.error('error fetching client from pool', err);
+      }
+      client.query('DELETE FROM wristband WHERE wid=$1;', [data.wid], function(err) {
+        //call `done()` to release the client back to the pool
+        done();
+
+        if(err) {
+          return console.error('error running query', err);
+        }
+
+        unregData = {};
+        unregData.uid = data.uid;
+        console.log('Succesfully unregistered wristband ' + data.uid);
+        return unregData;
+      });
+    });
+}
