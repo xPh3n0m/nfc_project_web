@@ -64,49 +64,14 @@ var sessionid = "sessionid";
     </ul>
     <ul class="tab-content">
       <li class="tab-pane active" id="registration"> 
-        <div class="control-group">
-          <label class="control-label" for="wid">Wristband ID</label>
-          <div class="controls">
-            <input type="text" disabled="disabled" class="input-xlarge required" name="wid" id="wid">
-          </div>
-        </div>
-
-        <div class="control-group">
-          <label class="control-label" for="balance">Balance</label>
-          <div class="controls">
-            <input type="text" disabled="disabled" class="input-xlarge required" name="balance" id="balance">
-          </div>
-        </div>
-
-        <div class="control-group">
-          <label class="control-label" for="first_name">First Name</label>
-          <div class="controls">
-            <input type="text" disabled="disabled" class="input-xlarge required" name="first_name" id="first_name">
-          </div>
-        </div>
-
-        <div class="control-group">
-          <label class="control-label" for="last_name">Last Name</label>
-          <div class="controls">
-            <input type="text" disabled="disabled" class="input-xlarge required" name="last_name" id="last_name">
-          </div>
-        </div>
-
-        <div class="control-group">
-          <label class="control-label" for="email">Email</label>
-          <div class="controls">
-            <input type="text" disabled="disabled" class="input-xlarge required" name="email" id="email">
-          </div>
-        </div>
-        <div class="control-group">
-          <input type="checkbox" disabled="disabled" id="anonymous" value="anonymous"> Anonymous?<br>
-        </div>
-        <button onclick="registerWristband()" class="btn btn-primary" disabled="disabled" type="button" id="reg_wristband_button">Register Wristband</button>
-        <button onclick="registerGuest()" class="btn btn-primary" disabled="disabled" type="button" id="reg_guest_button">Register new Guest</button>
-        <button onclick="updateGuest()" class="btn btn-primary" disabled="disabled" type="button" id="update_guest_button">Update Guest</button>
-        <button onclick="unregisterWristband()" class="btn btn-primary" disabled="disabled" type="button" id="unreg_wristband_button">Unregister Wristband</button>
+        <?php
+          include("registration.html");
+        ?>
       </li>
       <li class="tab-pane" id="cash">
+        <?php
+          include("cash_handler.html");
+        ?>
       </li>
     </div>
   </fieldset>

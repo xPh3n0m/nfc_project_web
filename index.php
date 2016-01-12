@@ -8,15 +8,17 @@
     <meta name="description" content="Use NFC wristbands in festivals">
     <meta name="author" content="">
 
-    <link href="css/bootstrap.css" rel="stylesheet">
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
     </style>
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="js/bootstrap.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     
     <?php
     $isReferencing = True;
@@ -59,58 +61,14 @@
       <div class="navbar-inner">
         <div class="container">
           <a class="brand" href="index.php">NFC Project</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
               <li class="<?php page('home'); ?>"><a href="index.php?p=home">Home</a></li>
               <li class="<?php page('menu'); ?>"><a href="index.php?p=nfc_app">NFC App</a></li>
-			  <li class="<?php page('guest'); ?>"><a href="index.php?p=guest">Guest</a></li>
-			  <li class="<?php page('catering'); ?>"><a href="index.php?p=catering">Catering companies</a></li>
-			  <li class="<?php page('menu'); ?>"><a href="index.php?p=menu">Menu</a></li>
-			  <li class="<?php page('transaction'); ?>"><a href="index.php?p=transaction">Transactions</a></li>
-              <li class="dropdown <?php page('deliverable') ?>">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Deliverable queries <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li class="dropdown-submenu">
-                    <a href="#">Deliverable 2</a>
-                    <ul class="dropdown-menu">
-                      <li><a href="index.php?p=deliverable&amp;l=A">A</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=B">B</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=C">C</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=D">D</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=E">E</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=F">F</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=G">G</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=H">H</a></li>
-                    </ul>
-                  </li>
-                  <li class="divider"></li>
-                  <li class="dropdown-submenu">
-                    <a href="#">Deliverable 3</a>
-                    <ul class="dropdown-menu">
-                      <li><a href="index.php?p=deliverable&amp;l=I">I</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=J">J</a></li>
-                      <li class="dropdown-submenu">
-                        <a href="#">K</a>
-                        <ul class="dropdown-menu">
-                          <li><a href="index.php?p=deliverable&amp;l=KS">Summer</a></li>
-                          <li><a href="index.php?p=deliverable&amp;l=KW">Winter</a></li>
-                        </ul>
-                      </li>
-                      <li><a href="index.php?p=deliverable&amp;l=L">L</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=M">M</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=N">N</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=O">O</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=P">P</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=Q">Q</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=R">R</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=S">S</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=T">T</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=U">U</a></li>
-                      <li><a href="index.php?p=deliverable&amp;l=V">V</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
+      			  <li class="<?php page('guest'); ?>"><a href="index.php?p=guest">Guest</a></li>
+      			  <li class="<?php page('catering'); ?>"><a href="index.php?p=catering">Catering companies</a></li>
+      			  <li class="<?php page('menu'); ?>"><a href="index.php?p=menu">Menu</a></li>
+      			  <li class="<?php page('transaction'); ?>"><a href="index.php?p=transaction">Transactions</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
