@@ -127,6 +127,7 @@ io.on('connection', function(socket){
 
   socket.on('process_transaction', function(data){
     console.log("Processing new transaction");
+    console.log(data);
     var amount = 0.0;
 
     var i;

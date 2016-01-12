@@ -73,16 +73,22 @@ var sessionid = "sessionid";
       <li class="disabled"><a href="#">Select app:</a></li>
       <li class="active"><a href="#registration" data-toggle="tab">Registration</a></li>
       <li><a href="#cash" data-toggle="tab">Cash Handler</a></li>
+      <li><a href="#catering" data-toggle="tab">Catering App</a></li>
     </ul>
     <ul class="tab-content">
       <li class="tab-pane active" id="registration"> 
         <?php
-          include("registration.html");
+          include("nfc_app/registration.html");
         ?>
       </li>
       <li class="tab-pane" id="cash">
         <?php
-          include("cash_handler.html");
+          include("nfc_app/cash_handler.html");
+        ?>
+      </li>
+      <li class="tab-pane" id="catering">
+        <?php
+          include("nfc_app/catering.php");
         ?>
       </li>
     </div>
@@ -102,20 +108,10 @@ var sessionid = "sessionid";
     order.unit_price = 1;
     order.amount = -amount;
 
-    var wristband = {};
-    wristband.wid=currentData.wid;
-    wristband.balance=currentData.balance;
-
-    var guest = {};
-    guest.gid=currentData.gid;
-
     var catering = {};
     catering.gpid=0;
 
-    var data = {};
-    data.room=sessionid;
-    data.guest=guest;
-    data.wristband=wristband;
+    var data = currentData;
     data.orders = [];
     data.orders[0] = order;
     data.catering=catering;
@@ -126,6 +122,7 @@ var sessionid = "sessionid";
 
   function registerGuest() {
     var data = currentData;
+    delete data.guest;
     data.guest={};
 
     if($('#anonymous').is(":checked")) {
@@ -149,6 +146,7 @@ var sessionid = "sessionid";
   function updateGuest() {
     var data = currentData;
 
+    delete data.guest;
     data.guest={};
     data.guest.gid=currentData.wristband.gid;
 
@@ -161,12 +159,13 @@ var sessionid = "sessionid";
       data.guest.email=$('#email').val();
     }
 
-    data.room = sessionid;
     socket.emit('update_guest', data);
   }
 
   function registerWristband() {
     var data = currentData;
+
+    delete data.wristband;
     data.wristband={};
     data.wristband.gid=-1;
     data.wristband.balance=0.0;

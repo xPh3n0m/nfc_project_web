@@ -70,7 +70,7 @@ $db = pg_connect('host=nfcprojectinstance.cpx69rsmkoux.us-west-2.rds.amazonaws.c
 		//echo "<td><i class='icon-remove'></i></td>\n";
 		echo "<td><a href='remove/remove_group_item.php?gpid=" . 
 	    $gpid . "&amp;iid=" . $row[0] . "&amp;location=catering" .
-	    "'><i class='icon-remove'></i></a></td>\n";
+	    "'><i class='fa fa-times'></i></a></td>\n";
 		//echo "<td><a href='index.php?p=info&amp;a=catering&amp;id=" . $row[0] . "' class='player-link' data-id='" . $row[0] . "' data-task='more'><i class='icon-plus'></i></a></td>";
 		echo "</tr>\n";
 	}

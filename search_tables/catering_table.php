@@ -42,8 +42,8 @@ echo '<span class="label label-info">'.$num_results.' results found</span>&nbsp;
     foreach ($row as $item) {
       echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;")."</td>\n";
     }
-	echo "<td><a href='remove/remove_catering.php?id=" . $row[0] . "'><i class='icon-remove'></i></a></td>";
-	echo "<td><a href='index.php?p=info&amp;a=catering&amp;id=" . $row[0] . "' class='player-link' data-id='" . $row[0] . "' data-task='more'><i class='icon-plus'></i></a></td>";
+	echo "<td><a href='remove/remove_catering.php?id=" . $row[0] . "'><i class='fa fa-times'></i></a></td>";
+	echo "<td><a href='index.php?p=info&amp;a=catering&amp;id=" . $row[0] . "' class='player-link' data-id='" . $row[0] . "' data-task='more'><i class='fa fa-plus'></i></a></td>";
     echo "</tr>\n";
   }
   echo "</tbody>\n";
