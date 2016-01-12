@@ -6,47 +6,59 @@ if(!isset($isReferencing)) header('Location: index.php');
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
 var socket;
-var currentMessage;
+var currentData;
 var sessionid = "sessionid";
   $( document ).ready(function() {
       socket = io.connect('http://localhost:3000');
 
       $('#sid').html(sessionid);
-      socket.emit('subscribe', sessionid);
+      socket.emit('subscribe',sessionid);
 
       socket.on('nfc_card_connected_message', function(msg){
-          currentMessage = msg.message;
-          handleNfcConnectionMessage(msg.message);
+          currentData = msg;
+          setFields(msg);
         });
 
       socket.on('nfc_card_disconnected_message', function(msg){
-          delete currentMessage;
-          handleNfcDisconnectionMessage(msg.message);
+          delete currentData;
+          resetFields(msg);
       });
 
       socket.on('register_wristband_succesful', function(msg){
-        currentMessage = msg.message;
-        handleNfcDisconnectionMessage(msg.message);
-        handleNfcConnectionMessage(msg.message);
+        currentData = msg;
+        resetFields(msg);
+        setFields(msg);
       });
 
       socket.on('unregister_wristband_succesful', function(msg){
-        delete currentMessage;
-        handleNfcDisconnectionMessage(msg.message);
-        handleNfcConnectionMessage(msg.message);
+        currentData = msg;
+        resetFields(msg);
+        setFields(msg);
       });
 
       socket.on('register_guest_succesful', function(msg){
-        currentMessage.guest=msg.message;
-        handleNfcDisconnectionMessage(msg.message);
-        handleNfcConnectionMessage(msg.message);
+        currentData=msg;
+        resetFields(msg);
+        setFields(msg);
+      });
+
+      socket.on('unregister_guest_succesful', function(msg){
+        currentData=msg;
+        resetFields(msg);
+        setFields(msg);
       });
 
       socket.on('update_guest_succesful', function(msg){
-        currentMessage.guest=msg.message;
-        handleNfcDisconnectionMessage(msg.message);
-        handleNfcConnectionMessage(msg.message);
+        currentData=msg;
+        resetFields(msg);
+        setFields(msg);
       });
+
+      socket.on('process_transaction_succesful', function(msg) {
+        currentData=msg;
+        resetFields(msg);
+        setFields(msg);
+      })
   });
 </script>
 <body>
@@ -82,17 +94,47 @@ var sessionid = "sessionid";
 
 
 <script>
-  function registerGuest() {
+
+  function creditWristband(amount) {
+    // Create a new credit order
+    var order = {};
+    order.iid = 1;
+    order.unit_price = 1;
+    order.amount = -amount;
+
+    var wristband = {};
+    wristband.wid=currentData.wid;
+    wristband.balance=currentData.balance;
+
+    var guest = {};
+    guest.gid=currentData.gid;
+
+    var catering = {};
+    catering.gpid=0;
+
     var data = {};
-    data.wid=currentMessage.wid;
+    data.room=sessionid;
+    data.guest=guest;
+    data.wristband=wristband;
+    data.orders = [];
+    data.orders[0] = order;
+    data.catering=catering;
+
+    socket.emit('process_transaction', data);
+  }
+
+
+  function registerGuest() {
+    var data = currentData;
+    data.guest={};
 
     if($('#anonymous').is(":checked")) {
-      data.anonymous=true;
+      data.guest.anonymous=true;
     } else {
-      data.anonymous=false;
-      data.first_name=$('#first_name').val();
-      data.last_name=$('#last_name').val();
-      data.email=$('#email').val();
+      data.guest.anonymous=false;
+      data.guest.first_name=$('#first_name').val();
+      data.guest.last_name=$('#last_name').val();
+      data.guest.email=$('#email').val();
     }
 
     data.room = sessionid;
@@ -100,34 +142,23 @@ var sessionid = "sessionid";
   }
 
   function unregisterGuest() {
-    var data = {};
-    data.wid=currentMessage.wid;
-    data.gid=currentMessage.gid;
-
-    if($('#anonymous').is(":checked")) {
-      data.anonymous=true;
-    } else {
-      data.anonymous=false;
-      data.first_name=$('#first_name').val();
-      data.last_name=$('#last_name').val();
-      data.email=$('#email').val();
-    }
-
-    data.room = sessionid;
-    socket.emit('register_guest', data);
+    var data = currentData;
+    socket.emit('unregister_guest', data);
   }
 
   function updateGuest() {
-    var data = {};
-    data.gid=currentMessage.gid;
+    var data = currentData;
+
+    data.guest={};
+    data.guest.gid=currentData.wristband.gid;
 
     if($('#anonymous').is(":checked")) {
-      data.anonymous=true;
+      data.guest.anonymous=true;
     } else {
-      data.anonymous=false;
-      data.first_name=$('#first_name').val();
-      data.last_name=$('#last_name').val();
-      data.email=$('#email').val();
+      data.guest.anonymous=false;
+      data.guest.first_name=$('#first_name').val();
+      data.guest.last_name=$('#last_name').val();
+      data.guest.email=$('#email').val();
     }
 
     data.room = sessionid;
@@ -135,42 +166,41 @@ var sessionid = "sessionid";
   }
 
   function registerWristband() {
-    var data = {};
-    data.gid=-1;
-    data.balance=0.0;
-    data.uid=currentMessage.uid;
-    data.status='I';
+    var data = currentData;
+    data.wristband={};
+    data.wristband.gid=-1;
+    data.wristband.balance=0.0;
+    data.wristband.uid=currentData.uid;
+    data.wristband.status='I';
     data.room = sessionid;
     socket.emit('register_wristband', data);
   }
 
   function unregisterWristband() {
-    var data = {};
-    data=currentMessage;
-    data.room = sessionid;
+    var data=currentData;
     socket.emit('unregister_wristband', data);
   }
 
-  function handleNfcConnectionMessage(message) {
-    $('#uid').html(message.uid);
-    if (typeof message.wid == 'undefined') {
+  function setFields(message) {
+    if (typeof message.wristband.wid == 'undefined') {
       $('#reg_wristband_button').removeAttr('disabled');
     } else {
-      $('#wid').val(message.wid);
-      $('#balance').val(message.balance);
+      $('#wid').val(message.wristband.wid);
+      $('[name="balance"]').val(message.wristband.balance);
 
-      if(message.gid <= 0) {
+      if(typeof message.guest == 'undefined') {
         $('#reg_guest_button').removeAttr('disabled');
         $('#unreg_wristband_button').removeAttr('disabled');
       } else {
-        $('#first_name').val(message.first_name);
-        $('#last_name').val(message.last_name);
-        $('#email').val(message.email);
-        if(message.anonymous) {
+        $('#first_name').val(message.guest.first_name);
+        $('#last_name').val(message.guest.last_name);
+        $('#email').val(message.guest.email);
+        if(message.guest.anonymous) {
           $('#anonymous').attr('checked', true);
         }
 
         $('#update_guest_button').removeAttr('disabled');
+        $('#unreg_guest_button').removeAttr('disabled');
       }
       $('#first_name').removeAttr('disabled');
       $('#last_name').removeAttr('disabled');
@@ -180,7 +210,7 @@ var sessionid = "sessionid";
     }
   }
 
-  function handleNfcDisconnectionMessage(message) {
+  function resetFields(message) {
     $('#uid').val('');
     $('#wid').val('');
     $('#balance').val('');
@@ -199,7 +229,11 @@ var sessionid = "sessionid";
     $('#unreg_wristband_button').attr('disabled','disabled');
     $('#reg_guest_button').attr('disabled','disabled');
     $('#update_guest_button').attr('disabled','disabled');
+    $('#unreg_guest_button').attr('disabled','disabled');
+
+    $('#amount').val("");
   }
+
 </script>
 
 

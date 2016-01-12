@@ -45,8 +45,8 @@ echo '<span class="label label-info">'.$num_results.' results found</span>&nbsp;
     }
     //echo "<td><a href='remove/remove_athlete.php?aid=" . $row['gid'] . "&amp;k=" . $searchkey . "'><i class='icon-remove'></i></a></td>\n";
     //echo "<td><a href='index.php?p=info&amp;a=athlete&amp;id=" . $row['gid'] . "' class='player-link' data-id='" . $row['gid'] . "' data-task='more'><i class='icon-plus'></i></a></td>\n";
-	echo "<td><a href='remove/remove_guest.php?gid=" . $row[0] . "'><i class='icon-remove'></i></a></td>";
-	echo "<td><a href='index.php?p=info&amp;a=guest&amp;id=" . $row[0] . "' class='player-link' data-id='" . $row[0] . "' data-task='more'><i class='icon-plus'></i></a></td>";
+	echo "<td><a href='remove/remove_guest.php?gid=" . $row[0] . "'><i class='fa fa-times'></i></a></td>";
+	echo "<td><a href='index.php?p=info&amp;a=guest&amp;id=" . $row[0] . "' class='player-link' data-id='" . $row[0] . "' data-task='more'><i class='fa fa-plus'></i></a></td>";
     echo "</tr>\n";
   }
   echo "</tbody>\n";
