@@ -7,9 +7,9 @@ if(!isset($isReferencing)) header('Location: index.php');
 <script>
 var socket;
 var currentMessage;
+var sessionid = "sessionid";
   $( document ).ready(function() {
       socket = io.connect('http://localhost:3000');
-      var sessionid = "sessionid";
 
       $('#sid').html(sessionid);
       socket.emit('subscribe', sessionid);
@@ -26,11 +26,25 @@ var currentMessage;
 
       socket.on('register_wristband_succesful', function(msg){
         currentMessage = msg.message;
+        handleNfcDisconnectionMessage(msg.message);
         handleNfcConnectionMessage(msg.message);
       });
 
       socket.on('unregister_wristband_succesful', function(msg){
         delete currentMessage;
+        handleNfcDisconnectionMessage(msg.message);
+        handleNfcConnectionMessage(msg.message);
+      });
+
+      socket.on('register_guest_succesful', function(msg){
+        currentMessage.guest=msg.message;
+        handleNfcDisconnectionMessage(msg.message);
+        handleNfcConnectionMessage(msg.message);
+      });
+
+      socket.on('update_guest_succesful', function(msg){
+        currentMessage.guest=msg.message;
+        handleNfcDisconnectionMessage(msg.message);
         handleNfcConnectionMessage(msg.message);
       });
   });
@@ -42,55 +56,103 @@ var currentMessage;
   <fieldset>
     <legend>NFC Application</legend>
     <div visibility="hidden" id="uid"></div>
-    <div class="control-group">
-      <label class="control-label" for="wid">Wristband ID</label>
-      <div class="controls">
-        <input type="text" disabled="disabled" class="input-xlarge required" name="wid" id="wid">
-      </div>
-    </div>
+    <div class="tabbable">
+    <ul class="nav nav-pills">
+      <li class="disabled"><a href="#">Select app:</a></li>
+      <li class="active"><a href="#registration" data-toggle="tab">Registration</a></li>
+      <li><a href="#cash" data-toggle="tab">Cash Handler</a></li>
+    </ul>
+    <ul class="tab-content">
+      <li class="tab-pane active" id="registration"> 
+        <div class="control-group">
+          <label class="control-label" for="wid">Wristband ID</label>
+          <div class="controls">
+            <input type="text" disabled="disabled" class="input-xlarge required" name="wid" id="wid">
+          </div>
+        </div>
 
-    <div class="control-group">
-      <label class="control-label" for="balance">Balance</label>
-      <div class="controls">
-        <input type="text" disabled="disabled" class="input-xlarge required" name="balance" id="balance">
-      </div>
-    </div>
+        <div class="control-group">
+          <label class="control-label" for="balance">Balance</label>
+          <div class="controls">
+            <input type="text" disabled="disabled" class="input-xlarge required" name="balance" id="balance">
+          </div>
+        </div>
 
-    <div class="control-group">
-      <label class="control-label" for="first_name">First Name</label>
-      <div class="controls">
-        <input type="text" disabled="disabled" class="input-xlarge required" name="first_name" id="first_name">
-      </div>
-    </div>
+        <div class="control-group">
+          <label class="control-label" for="first_name">First Name</label>
+          <div class="controls">
+            <input type="text" disabled="disabled" class="input-xlarge required" name="first_name" id="first_name">
+          </div>
+        </div>
 
-    <div class="control-group">
-      <label class="control-label" for="last_name">Last Name</label>
-      <div class="controls">
-        <input type="text" disabled="disabled" class="input-xlarge required" name="last_name" id="last_name">
-      </div>
-    </div>
+        <div class="control-group">
+          <label class="control-label" for="last_name">Last Name</label>
+          <div class="controls">
+            <input type="text" disabled="disabled" class="input-xlarge required" name="last_name" id="last_name">
+          </div>
+        </div>
 
-    <div class="control-group">
-      <label class="control-label" for="email">Email</label>
-      <div class="controls">
-        <input type="text" disabled="disabled" class="input-xlarge required" name="email" id="email">
-      </div>
-    </div>
-    <div class="control-group">
-      <input type="checkbox" disabled="disabled" id="anonymous" value="anonymous"> Anonymous?<br>
+        <div class="control-group">
+          <label class="control-label" for="email">Email</label>
+          <div class="controls">
+            <input type="text" disabled="disabled" class="input-xlarge required" name="email" id="email">
+          </div>
+        </div>
+        <div class="control-group">
+          <input type="checkbox" disabled="disabled" id="anonymous" value="anonymous"> Anonymous?<br>
+        </div>
+        <button onclick="registerWristband()" class="btn btn-primary" disabled="disabled" type="button" id="reg_wristband_button">Register Wristband</button>
+        <button onclick="registerGuest()" class="btn btn-primary" disabled="disabled" type="button" id="reg_guest_button">Register new Guest</button>
+        <button onclick="updateGuest()" class="btn btn-primary" disabled="disabled" type="button" id="update_guest_button">Update Guest</button>
+        <button onclick="unregisterWristband()" class="btn btn-primary" disabled="disabled" type="button" id="unreg_wristband_button">Unregister Wristband</button>
+      </li>
+      <li class="tab-pane" id="cash">
+      </li>
     </div>
   </fieldset>
 </section>
 
-<button onclick="registerWristband()" class="btn btn-primary" disabled="disabled" type="button" id="reg_wristband_button">Register Wristband</button>
-<button onclick="registerGuest()" class="btn btn-primary" disabled="disabled" type="button" id="reg_guest_button">Register new Guest</button>
-<button class="btn btn-primary" disabled="disabled" type="button" id="update_guest_button">Update Guest</button>
-<button onclick="unregisterWristband()" class="btn btn-primary" disabled="disabled" type="button" id="unreg_wristband_button">Unregister Wristband</button>
+
 </body>
 
 
 <script>
   function registerGuest() {
+    var data = {};
+    data.wid=currentMessage.wid;
+
+    if($('#anonymous').is(":checked")) {
+      data.anonymous=true;
+    } else {
+      data.anonymous=false;
+      data.first_name=$('#first_name').val();
+      data.last_name=$('#last_name').val();
+      data.email=$('#email').val();
+    }
+
+    data.room = sessionid;
+    socket.emit('register_guest', data);
+  }
+
+  function unregisterGuest() {
+    var data = {};
+    data.wid=currentMessage.wid;
+    data.gid=currentMessage.gid;
+
+    if($('#anonymous').is(":checked")) {
+      data.anonymous=true;
+    } else {
+      data.anonymous=false;
+      data.first_name=$('#first_name').val();
+      data.last_name=$('#last_name').val();
+      data.email=$('#email').val();
+    }
+
+    data.room = sessionid;
+    socket.emit('register_guest', data);
+  }
+
+  function updateGuest() {
     var data = {};
     data.gid=currentMessage.gid;
 
@@ -98,12 +160,13 @@ var currentMessage;
       data.anonymous=true;
     } else {
       data.anonymous=false;
-      data.first_name=$('#first_name');
-      data.last_name=$('#last_name');
-      data.email=$('#email');
+      data.first_name=$('#first_name').val();
+      data.last_name=$('#last_name').val();
+      data.email=$('#email').val();
     }
 
-    socket.emit('register_guest', data);
+    data.room = sessionid;
+    socket.emit('update_guest', data);
   }
 
   function registerWristband() {
@@ -112,11 +175,15 @@ var currentMessage;
     data.balance=0.0;
     data.uid=currentMessage.uid;
     data.status='I';
+    data.room = sessionid;
     socket.emit('register_wristband', data);
   }
 
   function unregisterWristband() {
-    socket.emit('unregister_wristband', currentMessage);
+    var data = {};
+    data=currentMessage;
+    data.room = sessionid;
+    socket.emit('unregister_wristband', data);
   }
 
   function handleNfcConnectionMessage(message) {
@@ -127,7 +194,7 @@ var currentMessage;
       $('#wid').val(message.wid);
       $('#balance').val(message.balance);
 
-      if(typeof message.gid == 'undefined') {
+      if(message.gid <= 0) {
         $('#reg_guest_button').removeAttr('disabled');
         $('#unreg_wristband_button').removeAttr('disabled');
       } else {
@@ -138,14 +205,13 @@ var currentMessage;
           $('#anonymous').attr('checked', true);
         }
 
-        $('#first_name').removeAttr('disabled');
-        $('#last_name').removeAttr('disabled');
-        $('#email').removeAttr('disabled');
-        $('#first_name').removeAttr('disabled');
-        $('#anonymous').removeAttr('disabled');
-
         $('#update_guest_button').removeAttr('disabled');
       }
+      $('#first_name').removeAttr('disabled');
+      $('#last_name').removeAttr('disabled');
+      $('#email').removeAttr('disabled');
+      $('#first_name').removeAttr('disabled');
+      $('#anonymous').removeAttr('disabled');
     }
   }
 
