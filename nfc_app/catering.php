@@ -87,7 +87,7 @@ while ($row = pg_fetch_row($result)) {
 			echo "<tbody hidden='hidden' name='table_gpid' id='table_gpid".$gpid."'>";
 		}
 		echo "<tr>\n";
-		echo "  <td>".$row[0]."</td>\n";
+		echo "  <td id='iid'>".$row[0]."</td>\n";
 		echo "  <td>".$row[1]."</td>\n";
 		echo "  <td>".$row[2]."</td>\n";
 		echo "  <td id='item_price_". $gpid . "_" . $row[0] . " val='".$row[5]."' >".$row[5]."</td>\n";
@@ -186,7 +186,7 @@ $(document).ready(function() {
     }
 
     function resetOrders() {
-    	$('[name="item_quantity"]').val("0")
+    	$('[name="item_quantity"]').val("0");
     	$('[name="item_subtotal"]').val("0.00");
 		$('#total').val("0.00");
     }
@@ -196,7 +196,23 @@ $(document).ready(function() {
     });
 
     $('#order').click(function(event) {
-        // Create the order list....
+        var gpid = $( "#catering_selector option:selected" ).val();
+        var catering = {};
+        catering.gpid=gpid;
+  
+        var orders = [];
+        $('[name="item_quantity"]').each(function() {
+        	if($(this).val()>0) {
+        		var order = {};
+        		order.amount = parseInt($(this).val());
+        		var price=parseFloat($(this).closest("td").prev().text());
+        		order.unit_price=price;
+        		order.iid=$(this).closest("td").prev().prev().prev().prev().text();
+        		orders.push(order);
+        	}
+        });
+        placeOrder(orders, catering);
+		//$('#total').val("0.00");
     });
 });
 </script>

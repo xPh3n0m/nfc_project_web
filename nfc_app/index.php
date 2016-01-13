@@ -126,6 +126,14 @@ var sessionid = "sessionid";
     socket.emit('process_transaction', data);
   }
 
+  function placeOrder(orders, catering) {
+    var data = currentData
+    data.orders = orders;
+    data.catering = catering;
+
+    socket.emit('process_transaction', data);
+  }
+
 
   function registerGuest() {
     var data = currentData;
