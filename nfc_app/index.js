@@ -52,48 +52,45 @@ io.on('connection', function(socket){
       if(err) {
         return console.error('error fetching client from pool', err);
       }
-      client.query('BEGIN', function(err) {
-        if(err) return rollback(client, done);
-        process.nextTick(function() {
-          var selectWristbandQuery = 'SELECT w.wid, w.balance, w.status, w.uid, w.gid FROM wristband w WHERE w.uid = $1::bytea';
-          client.query(selectWristbandQuery, [data.uid], function(err, result) {
-            if(err) return rollback(client, done);
+      process.nextTick(function() {
+        var selectWristbandQuery = 'SELECT w.wid, w.balance, w.status, w.uid, w.gid FROM wristband w WHERE w.uid = $1::bytea';
+        client.query(selectWristbandQuery, [data.uid], function(err, result) {
+          if(err) return rollback(client, done);
 
-            var wristband = {};
-            //Check if the wristband is already logged in the database
-            if(typeof result.rows[0] != 'undefined') {
-              wristband=result.rows[0];
-              console.log("NFC UID Present in database. WID: "+wristband.wid);
-              if(wristband.gid>0) {
-                console.log("Wristband registered with a guest");
-                var selectGuestQuery = 'SELECT g.first_name, g.last_name, g.email, g.anonymous FROM guest g WHERE g.gid = $1';
-                client.query(selectGuestQuery, [wristband.gid], function(err, res) {
-                  if(err) return rollback(client, done);
-                  if(typeof res.rows[0] != 'undefined') {
-                    guest=res.rows[0];
-                    console.log("Guest GID: " + wristband.gid);
-                  }
+          var wristband = {};
+          //Check if the wristband is already logged in the database
+          if(typeof result.rows[0] != 'undefined') {
+            wristband=result.rows[0];
+            console.log("NFC UID Present in database. WID: "+wristband.wid);
+            if(wristband.gid>0) {
+              console.log("Wristband registered with a guest");
+              var selectGuestQuery = 'SELECT g.first_name, g.last_name, g.email, g.anonymous FROM guest g WHERE g.gid = $1';
+              client.query(selectGuestQuery, [wristband.gid], function(err, res) {
+                if(err) return rollback(client, done);
+                if(typeof res.rows[0] != 'undefined') {
+                  guest=res.rows[0];
+                  console.log("Guest GID: " + wristband.gid);
+                }
 
-                  guest.gid=wristband.gid;
-                  data.wristband=wristband;
-                  data.wristband.uid=data.uid;
-                  data.guest=guest;
-                  console.log(data);
-                  socket.broadcast.to(data.room).emit('nfc_card_connected_message', data);
-                });
-              } else {
-                  console.log("Wristband NOT registered with a guest");
-                  data.wristband=wristband;
-                  data.wristband.uid=data.uid;
-                  socket.broadcast.to(data.room).emit('nfc_card_connected_message', data);
-              }
+                guest.gid=wristband.gid;
+                data.wristband=wristband;
+                data.wristband.uid=data.uid;
+                data.guest=guest;
+                console.log(data);
+                socket.broadcast.to(data.room).emit('nfc_card_connected_message', data);
+              });
             } else {
-              console.log("Unregistered wristband");
-              data.wristband={};
-              data.wristband.uid=data.uid;
-              socket.broadcast.to(data.room).emit('nfc_card_connected_message', data);
+                console.log("Wristband NOT registered with a guest");
+                data.wristband=wristband;
+                data.wristband.uid=data.uid;
+                socket.broadcast.to(data.room).emit('nfc_card_connected_message', data);
             }
-          });
+          } else {
+            console.log("Unregistered wristband");
+            data.wristband={};
+            data.wristband.uid=data.uid;
+            socket.broadcast.to(data.room).emit('nfc_card_connected_message', data);
+          }
         });
       });
     });
@@ -178,7 +175,7 @@ io.on('connection', function(socket){
   });
 
   function updateGuest(data) {
-    console.log("Data received" + data);
+    console.log("Data received" + data.guest);
     pg.connect(connectionString, function(err, client, done) {
     if(err) {
       return console.error('error fetching client from pool', err);

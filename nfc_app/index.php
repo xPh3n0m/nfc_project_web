@@ -15,6 +15,7 @@ var sessionid = "sessionid";
       socket.emit('subscribe',sessionid);
 
       socket.on('nfc_card_connected_message', function(msg){
+          delete currentData;
           currentData = msg;
           setFields(msg);
         });
@@ -25,36 +26,42 @@ var sessionid = "sessionid";
       });
 
       socket.on('register_wristband_succesful', function(msg){
+        delete currentData;
         currentData = msg;
         resetFields(msg);
         setFields(msg);
       });
 
       socket.on('unregister_wristband_succesful', function(msg){
+        delete currentData;
         currentData = msg;
         resetFields(msg);
         setFields(msg);
       });
 
       socket.on('register_guest_succesful', function(msg){
+        delete currentData;
         currentData=msg;
         resetFields(msg);
         setFields(msg);
       });
 
       socket.on('unregister_guest_succesful', function(msg){
+        delete currentData;
         currentData=msg;
         resetFields(msg);
         setFields(msg);
       });
 
       socket.on('update_guest_succesful', function(msg){
+        delete currentData;
         currentData=msg;
         resetFields(msg);
         setFields(msg);
       });
 
       socket.on('process_transaction_succesful', function(msg) {
+        delete currentData;
         currentData=msg;
         resetFields(msg);
         setFields(msg);
